@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
+             Title="{Binding Title}">
+<!--x:Class="Charts.Views.MainPage"-->
+
+    <ContentPage.BindingContext>
+        <vm:EfficiencyViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ab</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <StackLayout VerticalOptions="Center">
+        <forms:ChartView x:Name="ChartV" HeightRequest="200"  WidthRequest="200" Margin="20"></forms:ChartView>
+    </StackLayout>
+
+    <Grid>
+            <microcharts:ChartView Margin="10,0,10,10"
+                         Chart="{Binding LineChart}"
+                         HeightRequest="300"
+                         VerticalOptions="Start"
+                         HorizontalOptions="Fill"/>
+        </Grid>
+
+
+  <ContentPage.Content>
+      <StackLayout>
+          <Label Text="Welcome to Xamarin.Forms!"
+              VerticalOptions="CenterAndExpand" 
+              HorizontalOptions="CenterAndExpand" />
+      </StackLayout>
+  </ContentPage.Content>
+
+
+</ContentPage>
