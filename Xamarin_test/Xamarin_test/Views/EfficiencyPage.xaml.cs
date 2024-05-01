@@ -14,7 +14,7 @@ namespace Xamarin_test.Views
 	{
 		public EfficiencyPage ()
 		{
-			InitializeComponent ();
+            InitializeComponent();
 		}
 	}
 }

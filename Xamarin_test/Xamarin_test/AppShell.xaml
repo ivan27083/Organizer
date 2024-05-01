@@ -84,6 +84,10 @@
         <Tab Title="Login" Icon="xamarin_logo.png">
             <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
         </Tab>
+
+        <Tab Title="Efficiency" Icon="xamarin_logo.png">
+            <ShellContent Route="EfficiencyPage" ContentTemplate="{DataTemplate local:EfficiencyPage}" />
+        </Tab>
     </TabBar>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.

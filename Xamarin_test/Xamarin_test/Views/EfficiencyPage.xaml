@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
-             Title="{Binding Title}">
-<!--x:Class="Charts.Views.MainPage"-->
+             Title="{Binding Title}"
+             x:Class="Xamarin_test.Views.EfficiencyPage">
+
 
     <ContentPage.BindingContext>
         <vm:EfficiencyViewModel />
@@ -17,21 +18,13 @@
     </ContentPage.Resources>
 
 
-    <StackLayout VerticalOptions="Center">
-        <forms:ChartView x:Name="ChartV" HeightRequest="200"  WidthRequest="200" Margin="20"></forms:ChartView>
-    </StackLayout>
-
-    <Grid>
+    <ContentPage.Content>
+        <StackLayout>
             <microcharts:ChartView Margin="10,0,10,10"
-                         Chart="{Binding LineChart}"
-                         HeightRequest="300"
-                         VerticalOptions="Start"
-                         HorizontalOptions="Fill"/>
-        </Grid>
-
-
-  <ContentPage.Content>
-      <StackLayout>
+                Chart="{Binding LineChart}"
+                HeightRequest="300"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill"/>
           <Label Text="Welcome to Xamarin.Forms!"
               VerticalOptions="CenterAndExpand" 
               HorizontalOptions="CenterAndExpand" />
