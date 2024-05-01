@@ -12,22 +12,24 @@ namespace Xamarin_test.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private Mission _selectedMission;
 
-        public ObservableCollection<Item> Items { get; }
+        public ObservableCollection<Mission> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Mission> ItemTapped { get; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Mission>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Mission>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+
+
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -37,10 +39,10 @@ namespace Xamarin_test.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                var missions = await DataStore.GetItemsAsync(true);
+                foreach (var mission in missions)
                 {
-                    Items.Add(item);
+                    Items.Add(mission);
                 }
             }
             catch (Exception ex)
@@ -59,12 +61,12 @@ namespace Xamarin_test.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Mission SelectedItem
         {
-            get => _selectedItem;
+            get => _selectedMission;
             set
             {
-                SetProperty(ref _selectedItem, value);
+                SetProperty(ref _selectedMission, value);
                 OnItemSelected(value);
             }
         }
@@ -74,13 +76,13 @@ namespace Xamarin_test.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Mission mission)
         {
-            if (item == null)
+            if (mission == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={mission.Id}");
         }
     }
 }

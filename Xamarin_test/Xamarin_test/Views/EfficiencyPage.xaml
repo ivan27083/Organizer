@@ -20,14 +20,11 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <microcharts:ChartView Margin="10,0,10,10"
-                Chart="{Binding LineChart}"
+            <microcharts:ChartView Margin="10,100,10,10"
+                Chart="{Binding BarChart}"
                 HeightRequest="300"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"/>
-          <Label Text="Welcome to Xamarin.Forms!"
-              VerticalOptions="CenterAndExpand" 
-              HorizontalOptions="CenterAndExpand" />
       </StackLayout>
   </ContentPage.Content>
 

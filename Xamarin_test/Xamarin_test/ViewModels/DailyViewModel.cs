@@ -5,10 +5,10 @@ using Xamarin.Forms;
 
 namespace Xamarin_test.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class DailyViewModel : BaseViewModel
     {
         public ICommand OpenWebCommand { get; }
-        public AboutViewModel()
+        public DailyViewModel()
         {
             Title = "About";
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));

@@ -49,7 +49,7 @@ namespace Xamarin_test.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Mission newItem = new Mission()
             {
                 Id = Guid.NewGuid().ToString(),
                 Text = Text,
