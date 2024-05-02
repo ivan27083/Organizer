@@ -20,7 +20,7 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Item">
+                    <StackLayout Padding="10" x:DataType="model:Mission">
                         <Label Text="{Binding Text}"
                             TextColor="Aqua"
                             LineBreakMode="NoWrap" 

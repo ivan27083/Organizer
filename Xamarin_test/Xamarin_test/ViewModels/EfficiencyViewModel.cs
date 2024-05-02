@@ -30,78 +30,28 @@ namespace Xamarin_test.ViewModels
         static int maxvalue = 1;
         private void InitData_barchart()//ff0000  3498db
         {
-            days = new List<Day>();
-
-            var backgroundColor = SKColor.Parse("#4AB4E4E7"); // Цвет заднего фона
-            var blueColor = SKColor.Parse("#FF9040");
+            DateTime date1 = new DateTime(2024, 5, 1);
+            List<Daily> dailies = new List<Daily>()
+            {
+                new Daily()
+            };
+            days = new List<Day>()
+            {
+                new Day(date1, dailies)
+            };
+            var blueColor = SKColor.Parse("#FF9040");//?????
             var chartEntries = new List<ChartEntry>();
             foreach (Day day in days)
             {
                 chartEntries.Add(day.ToChartEntry());
             }
-            //{
-            //    new ChartEntry(v1)
-            //    {
-            //        Label = "01.05",
-            //        ValueLabel = p1.ToString()+"%",
-            //        Color = SKColor.Parse(c1)
-            //    },
-            //    new ChartEntry(v2)
-            //    {
-            //        Label = "02.05",
-            //        ValueLabel = p2.ToString()+"%",
-            //        Color = SKColor.Parse(c2)
-            //    },
-            //    new ChartEntry(v3)
-            //    {
-            //        Label = "03.05",
-            //        ValueLabel = p3.ToString()+"%",
-            //        Color = SKColor.Parse(c3)
-            //    },
-            //    new ChartEntry(v4)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = p4.ToString()+"%",
-            //        Color = SKColor.Parse(c4)
-            //    },
-            //     new ChartEntry(v4)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = p4.ToString()+"%",
-            //        Color = SKColor.Parse(c4)
-            //    },
-            //      new ChartEntry(v3)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = p3.ToString()+"%",
-            //        Color = SKColor.Parse(c3)
-            //    },
-            //       new ChartEntry(v4)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = p4.ToString()+"%",
-            //        Color = SKColor.Parse(c4)
-            //    },
-            //        new ChartEntry(v2)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = p2.ToString()+"%",
-            //        Color = SKColor.Parse(c2)
-            //    },
-            //         new ChartEntry(50)
-            //    {
-            //        Label = "04.05",
-            //        ValueLabel = 5.ToString()+"%",
-            //        Color = SKColor.Parse(c1)
-            //    },
-            //};
 
             BarChart = new BarChart { Entries = chartEntries,
-                BackgroundColor = backgroundColor,
+                BackgroundColor = SKColor.Parse("#4AB4E4E7"),// Цвет заднего фона
                 LabelTextSize = 35f,
                 MaxValue = maxvalue,
-                //LabelOrientation = Orientation.Horizontal,
                 ValueLabelOrientation = Orientation.Horizontal };
+            if (days.Count < 4) BarChart.LabelOrientation = Orientation.Horizontal;
         }
 
         public string Text1_notdone { get; set; } = "Количество невыполненных задач: " + "10";

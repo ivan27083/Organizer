@@ -14,7 +14,7 @@ namespace Xamarin_test.Services
         {
             items = new List<Mission>()
             {
-                new Mission { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description.",}
+                new Mission { Id = 0, Text = "First item", Description="This is an item description.",}
             };
         }
 
@@ -34,7 +34,7 @@ namespace Xamarin_test.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(string id)
+        public async Task<bool> DeleteItemAsync(int id)
         {
             var oldItem = items.Where((Mission arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
@@ -42,7 +42,7 @@ namespace Xamarin_test.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Mission> GetItemAsync(string id)
+        public async Task<Mission> GetItemAsync(int id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }

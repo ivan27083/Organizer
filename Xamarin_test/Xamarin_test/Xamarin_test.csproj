@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Models\NewFile1.txt" />
+    <None Remove="Models\reposytory.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.8" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />

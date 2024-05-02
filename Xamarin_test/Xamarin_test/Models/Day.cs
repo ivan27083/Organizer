@@ -11,10 +11,18 @@ namespace Xamarin_test.Models
     {
         public DateTime day;
         public List<Daily> dailies;
+        public DayOfWeek dayOfTheWeek;
         public Day()
         {
             day = DateTime.Now;
             dailies = new List<Daily>();
+            dayOfTheWeek = day.DayOfWeek;
+        }
+        public Day(DateTime _day, List<Daily> _dailies)
+        {
+            day = _day;
+            dailies = _dailies;
+            dayOfTheWeek = day.DayOfWeek;
         }
         public ChartEntry ToChartEntry(double maxvalue = 1)
         {
@@ -23,12 +31,12 @@ namespace Xamarin_test.Models
             {
                 if (d.Completed) completed++;
             }
-            double value = dailies.Count / completed;
+            double value = completed > 0 ? dailies.Count / completed : 0;
             double p1 = (int)Math.Ceiling(value) * 100 / maxvalue;
             ChartColor color = new ChartColor(p1);
             ChartEntry new_entry = new ChartEntry((float)value)
             {
-                Label = day.Day.ToString() + "." + day.Month.ToString(),
+                Label = (day.Day > 10 ? day.Day.ToString() : "0" + day.Day.ToString()) + "." + (day.Month > 10 ? day.Month.ToString(): "0" + day.Month.ToString()),
                 ValueLabel = p1.ToString() + "%",
                 Color = color.color
             };

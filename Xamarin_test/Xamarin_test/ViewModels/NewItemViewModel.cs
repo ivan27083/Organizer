@@ -51,7 +51,7 @@ namespace Xamarin_test.ViewModels
         {
             Mission newItem = new Mission()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = 0, // id errors mb
                 Text = Text,
                 Description = Description
             };

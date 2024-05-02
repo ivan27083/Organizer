@@ -1,28 +1,31 @@
 ﻿using System;
+using SQLite;
 
 namespace Xamarin_test.Models
 {
-    public class Item
+    [Table("Missions")]
+    public class abstract_Item
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
         public bool Completed { get; set; }
-        public Item()
+        public abstract_Item()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = 0;
             Text = "";
             Description = "";
             Completed = false;
         }
     }
 
-    public class Purpose : Item
+    public class Purpose : abstract_Item
     {
 
     }
-    public class Mission : Item
+    public class Mission : abstract_Item
     {
+        [PrimaryKey, AutoIncrement, Column("_id")]
         public string Difficulty { get; set; }
         public DateTime? Date { get; set; }
         public Mission()
@@ -32,7 +35,7 @@ namespace Xamarin_test.Models
         }
     }
 
-    public class Daily : Item
+    public class Daily : abstract_Item
     {
         public string Day { get; set; }
         public Daily()
