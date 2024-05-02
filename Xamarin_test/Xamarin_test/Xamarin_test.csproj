@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.88.8" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2662" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
   </ItemGroup>
@@ -17,6 +18,9 @@
   <ItemGroup>
     <Compile Update="Views\DailyPage.xaml.cs">
       <DependentUpon>DailyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AimsPage.xaml.cs">
+      <DependentUpon>AimsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

@@ -6,11 +6,11 @@ using Xamarin_test.Views;
 
 namespace Xamarin_test.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class AimsViewModel : BaseViewModel
     {
         public Command LoginCommand { get; }
 
-        public LoginViewModel()
+        public AimsViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
         }

@@ -15,7 +15,7 @@ namespace Xamarin_test.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            this.BindingContext = new AimsViewModel();
         }
     }
 }
