@@ -28,6 +28,7 @@ namespace Xamarin_test
             }
 
         }
+
         public App()
         {
             InitializeComponent();

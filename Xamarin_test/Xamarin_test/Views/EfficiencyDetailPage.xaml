@@ -4,11 +4,10 @@
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="{Binding Title}"
-             x:Class="Xamarin_test.Views.EfficiencyPage">
-
+             x:Class="Xamarin_test.Views.EfficiencyDetailPage">
 
     <ContentPage.BindingContext>
-        <vm:EfficiencyViewModel />
+        <vm:EfficiencyDetailViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
@@ -27,25 +26,13 @@
                    Padding="8">
                 <StackLayout>
                     <Label HorizontalTextAlignment="Center"
-                           Text="{Binding Text1_notdone}"/>
+                           Text="{Binding Text1_stat}"/>
                 </StackLayout>
             </Frame>
-
-            <Frame Margin="210,70,15,560"
-                   BackgroundColor="#BFB4E4E7"
-                   BorderColor="#34C6CD"
-                   CornerRadius="5"
-                   Padding="8">
-                <StackLayout>
-                    <Label HorizontalTextAlignment="Center"
-                           Text="{Binding Text2_done}"/>
-                </StackLayout>
-            </Frame>
-
 
             <microcharts:ChartView 
                 Margin="15,170,15,10"
-                Chart="{Binding BarChart}"
+                Chart="{Binding PieChart}"
                 HeightRequest="300"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"/>
@@ -62,7 +49,11 @@
                 </StackLayout>
             </Frame>
         </Grid>
-  </ContentPage.Content>
 
 
+
+
+
+
+    </ContentPage.Content>
 </ContentPage>

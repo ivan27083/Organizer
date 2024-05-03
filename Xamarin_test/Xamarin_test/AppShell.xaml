@@ -73,7 +73,7 @@
     </Shell.Resources>
     
     <TabBar>
-        <Tab Title="About" Icon="icon_about.png">
+        <Tab Title="Daily" Icon="icon_about.png">
             <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
         </Tab>
 
@@ -81,12 +81,16 @@
             <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
         </Tab>
 
-        <Tab Title="Login" Icon="xamarin_logo.png">
+        <Tab Title="Aims" Icon="xamarin_logo.png">
             <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
         </Tab>
 
         <Tab Title="Efficiency" Icon="xamarin_logo.png">
             <ShellContent Route="EfficiencyPage" ContentTemplate="{DataTemplate local:EfficiencyPage}" />
+        </Tab>
+
+        <Tab Title="Efficiency2" Icon="xamarin_logo.png">
+             <ShellContent Route="EfficiencyDetailPage" ContentTemplate="{DataTemplate local:EfficiencyDetailPage}" />
         </Tab>
     </TabBar>
     <!-- 

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Xamarin_test.Classes;
 using Xamarin_test.Views;
+using Xamarin_test.Models;
 
 namespace Xamarin_test.ViewModels
 {
     public class AimsViewModel : BaseViewModel
     {
+        Node<abstract_Item> root;
         public Command LoginCommand { get; }
 
         public AimsViewModel()

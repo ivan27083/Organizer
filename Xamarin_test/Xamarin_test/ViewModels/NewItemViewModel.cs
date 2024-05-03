@@ -56,7 +56,7 @@ namespace Xamarin_test.ViewModels
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.SaveItemAsync(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -3,9 +3,10 @@ using SQLite;
 
 namespace Xamarin_test.Models
 {
-    [Table("Missions")]
+    [Table("Purposes")]
     public class abstract_Item
     {
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
@@ -25,8 +26,7 @@ namespace Xamarin_test.Models
     }
     public class Mission : abstract_Item
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public string Difficulty { get; set; }
+        public string Difficulty { get; set; }// later
         public DateTime? Date { get; set; }
         public Mission()
         {

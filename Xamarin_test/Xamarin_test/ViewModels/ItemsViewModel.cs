@@ -28,10 +28,8 @@ namespace Xamarin_test.ViewModels
             ItemTapped = new Command<Mission>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
-
-
         }
-
+        
         async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
@@ -80,9 +78,11 @@ namespace Xamarin_test.ViewModels
         {
             if (mission == null)
                 return;
-
+          
             // This will push the ItemDetailPage onto the navigation stack
+
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={mission.Id}");
         }
+
     }
 }
