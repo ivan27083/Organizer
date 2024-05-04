@@ -25,14 +25,18 @@
             </Style>
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+            
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#144A4D"></Setter>
+            </Style>
 
+            <Style TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
+            </Style>
             <!--
             Default Styles for all Flyout Items
             https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
             -->
-            <Style Class="Frame" TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
-            </Style>
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White"></Setter>
             </Style>

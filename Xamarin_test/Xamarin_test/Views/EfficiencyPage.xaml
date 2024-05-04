@@ -26,8 +26,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                   <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                  <RowDefinition Height="2*" />
+                  <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
 
             <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
             <Frame Grid.Column="0" Grid.Row="0"

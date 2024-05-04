@@ -2,23 +2,53 @@
 using System.Text;
 using SkiaSharp;
 using Microcharts;
+using Microcharts.Forms;
 using Xamarin.Forms;
 using System.Numerics;
 using Xamarin.Essentials;
 using Xamarin_test.Models;
 using System.Collections.Generic;
 using System;
+using Xamarin_test.Services;
+using System.Diagnostics;
 
 namespace Xamarin_test.ViewModels
 {
     public class EfficiencyDetailViewModel : BaseViewModel
     {
+        public IDataStore<Day> DataStore => DependencyService.Get<IDataStore<Day>>();
         Day curr_day;
-
+        private int itemId; 
+        public int ItemId
+        {
+            get
+            {
+                return curr_day.Id;
+            }
+            set
+            {
+                itemId = value;
+                LoadItemId(value);
+            }
+        }
+        public async void LoadItemId(int itemId)
+        {
+            try
+            {
+                var item = await DataStore.GetItemAsync(itemId);
+                curr_day.Id = item.Id;
+                curr_day.day = item.day;
+                curr_day.dayOfTheWeek = item.dayOfTheWeek;
+                curr_day.dailies = item.dailies;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Load Item");
+            }
+        }
         public EfficiencyDetailViewModel()
         {
-            Title = "Efficiency " + "25.02.24";
-                //curr_day.day.ToString();
+            Title = "Efficiency " + curr_day.day.Date.ToString();
             InitData_piechart();
         }
 
@@ -59,12 +89,15 @@ namespace Xamarin_test.ViewModels
                 {
                     Label = "Completed",
                     ValueLabel = completed.ToString(),
-                    Color = SKColor.Parse("#E6FFC040")
+                    Color = SKColor.Parse("#E6FFC040"),
+                    ValueLabelColor=SKColor.Parse("#E6FFC040")
                 },
                 new ChartEntry(notcompleted)
                 {
                     Label = "Notcompleted",
-                    Color = SKColor.Parse("#B3E83B15")
+                    Color = SKColor.Parse("#B3E83B15"),
+                    ValueLabel = notcompleted.ToString(),
+                    ValueLabelColor=SKColor.Parse("#B3E83B15") // кристина привет
                 },
             };
             //

@@ -31,7 +31,7 @@ namespace Xamarin_test.ViewModels
         private async void OnAimSelected(object obj)
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}?{nameof(AimEditViewModel)}={_selectedAim}");
+            await Shell.Current.GoToAsync($"//{nameof(AimEditPage)}?{nameof(AimEditViewModel)}={_selectedAim}");
         }
     }
 }

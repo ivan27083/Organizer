@@ -19,7 +19,6 @@ namespace Xamarin_test.ViewModels
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<Mission> ItemTapped { get; }
-
         public ItemsViewModel()
         {
             Title = "Browse";
@@ -27,7 +26,6 @@ namespace Xamarin_test.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             ItemTapped = new Command<Mission>(OnItemSelected);
-
             AddItemCommand = new Command(OnAddItem);
         }
         
@@ -84,6 +82,5 @@ namespace Xamarin_test.ViewModels
 
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={mission.Id}");
         }
-
     }
 }

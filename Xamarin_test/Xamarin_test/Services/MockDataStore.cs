@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -192,17 +193,22 @@ namespace Xamarin_test.Services
     public class MockDataStoreDay : IDataStore<Day> // Задачи
     {
         readonly List<Day> items;
-
         public MockDataStoreDay()
         {
             //добавление данных из БД
-            items = new List<Day>();
             using (ApplicationContext db = new ApplicationContext())
             {
                 items = db.days.ToList();
+                foreach(Day day in items)
+                {
+                    var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                    foreach (var item in items)
+                    {
+                        day.dailies.Add(item);
+                    }
+                }
             }
         }
-
         public async Task<int> AddItemAsync(Day item)
         {
             //Добавление данных в БД
@@ -228,7 +234,13 @@ namespace Xamarin_test.Services
             // возвращает 1 объект из БД
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await Task.FromResult(db.days.Find(id));
+                var day = db.days.Find(id);
+                var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                foreach (var item in items)
+                {
+                    day.dailies.Add(item);
+                }
+                return await Task.FromResult(day);
             }
         }
 
@@ -237,7 +249,16 @@ namespace Xamarin_test.Services
             // возвращает все объекты таблицы БД
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await Task.FromResult(db.days.ToList());
+                List<Day> _items = db.days.ToList();
+                foreach (Day day in _items)
+                {
+                    var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                    foreach (var item in items)
+                    {
+                        day.dailies.Add(item);
+                    }
+                }
+                return await Task.FromResult(_items);
             }
         }
         public async Task<int> UpdateItemAsync(Day item)

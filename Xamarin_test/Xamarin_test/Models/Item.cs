@@ -10,21 +10,19 @@ namespace Xamarin_test.Models
         public string Text { get; set; }
         public string Description { get; set; }
         public bool Completed { get; set; }
-        virtual public int Group { get; set; }
-        
-        
+
         public abstract_Item()
         {
             Id = 0;
             Text = "";
             Description = "";
             Completed = false;
-            Group = 0;
         }
     }
 
     public class Purpose : abstract_Item
     {
+        public int Group { get; set; }
         public int Parent {  get; set; }
         public int Children { get; set; }
         public Purpose? purp_nav { get; set; }
@@ -32,7 +30,8 @@ namespace Xamarin_test.Models
         public List<Purpose> purposes { get; set; }
         public Purpose()
         {
-            if (purp_nav != null) { 
+            Group = 0;
+            if (purp_nav != null) {
                 Children = purp_nav.Group;
                 Parent = purp_nav.Id;
             }
@@ -45,25 +44,25 @@ namespace Xamarin_test.Models
     }
     public class Mission : abstract_Item
     {
+        public int Group { get; set; }
         public List<Purpose> purposes { get; set; }
         public int Parent { get; set; }
-        public string Difficulty { get; set; }// later
+        //public string Difficulty { get; set; } //later
         public DateTime? Date { get; set; }
         public Mission()
         {
-            Difficulty = null;
+            Group = 0;
             Date = null;
         }
     }
 
     public class Daily : abstract_Item
     {
-        public int Day { get; set; }
+        public DayOfWeek? Day { get; set; }
         public List<Day> days { get; set; }
-        [NotMapped] override public int Group { get; set; }
         public Daily()
         {
-            Day = -1;
+            Day = null;
         }
     }
 }
