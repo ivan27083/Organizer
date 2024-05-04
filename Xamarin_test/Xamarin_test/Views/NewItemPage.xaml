@@ -3,20 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_test.Views.NewItemPage"
              Shell.PresentationMode="ModalAnimated"
+             xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="New Item"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true">
+
+    <ContentPage.BindingContext>
+        <vm:NewItemViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ab</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
-            <StackLayout Orientation="Horizontal">
+        <Grid Padding="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+
+            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
+
+            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                <Label Text="Название задачи" FontSize="Medium"/>
+                <Frame BackgroundColor="#BFB4E4E7"
+                       BorderColor="#34C6CD"
+                       CornerRadius="5"
+                       Padding="8"> 
+                    <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" /> </Frame>
+            </StackLayout>
+
+
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Описание" FontSize="Medium" />
+                <Frame Grid.Row="1"
+                       BackgroundColor="#BFB4E4E7"
+                       BorderColor="#34C6CD"
+                       CornerRadius="5"
+                       Padding="8">
+                    <ScrollView>
+                        <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" />
+                    </ScrollView>
+                </Frame>
+            </Grid>
+
+            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3" Margin="0,25,0,0">
+                <Label Text="Дата выполнения" FontSize="Medium"/>
+                <Frame BackgroundColor="#BFB4E4E7"
+                       BorderColor="#34C6CD"
+                       CornerRadius="5"
+                       Padding="8">
+                    <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
+                </Frame>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,35,0,0">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                 <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
             </StackLayout>
-        </StackLayout>
+        </Grid>
+        
     </ContentPage.Content>
-    
 </ContentPage>
