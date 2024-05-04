@@ -18,27 +18,35 @@
 
 
     <ContentPage.Content>
-        <Grid>
-            <Frame Margin="15,70,210,560"
+        <Grid Padding= "8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                  <RowDefinition Height="100" />
+                  <RowDefinition Height="*" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
+            <Frame Grid.Row="0"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
                 <StackLayout>
-                    <Label HorizontalTextAlignment="Center"
+                    <Label HorizontalTextAlignment="Left"
                            Text="{Binding Text1_stat}"/>
                 </StackLayout>
             </Frame>
 
-            <microcharts:ChartView 
-                Margin="15,170,15,10"
+            <microcharts:ChartView Grid.Row="1"
                 Chart="{Binding PieChart}"
                 HeightRequest="300"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"/>
 
 
-            <Frame Margin="15,510,15,25"
+            <Frame Grid.Row="2"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"

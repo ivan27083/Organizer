@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using Xamarin_test.Models;
+using Xamarin_test.Services;
 using Xamarin_test.Views;
 
 namespace Xamarin_test.ViewModels
@@ -13,7 +14,7 @@ namespace Xamarin_test.ViewModels
     public class ItemsViewModel : BaseViewModel
     {
         private Mission _selectedMission;
-
+        public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public ObservableCollection<Mission> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }

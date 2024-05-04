@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin_test.Models;
+using Xamarin_test.Services;
 using Xamarin_test.Views;
 
 namespace Xamarin_test.ViewModels
@@ -13,8 +14,10 @@ namespace Xamarin_test.ViewModels
         private int itemId;
         private string text;
         private string description;
+        
         public int Id { get; set; }
-
+        DateTime? date;
+        public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public string Text
         {
             get => text;
@@ -26,7 +29,11 @@ namespace Xamarin_test.ViewModels
             get => description;
             set => SetProperty(ref description, value);
         }
-
+        public DateTime? Date
+        {
+            get => date;
+            set => SetProperty(ref date, value);
+        }
         public int ItemId
         {
             get
@@ -48,6 +55,7 @@ namespace Xamarin_test.ViewModels
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;
+                Date = item.Date;
             }
             catch (Exception)
             {

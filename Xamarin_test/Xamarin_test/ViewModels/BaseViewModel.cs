@@ -12,7 +12,6 @@ namespace Xamarin_test.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
 
         bool isBusy = false;
         public bool IsBusy

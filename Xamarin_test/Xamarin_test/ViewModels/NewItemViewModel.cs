@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin_test.Models;
+using Xamarin_test.Services;
 
 namespace Xamarin_test.ViewModels
 {
@@ -11,7 +12,7 @@ namespace Xamarin_test.ViewModels
     {
         private string text;
         private string description;
-
+        public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public NewItemViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -56,7 +57,7 @@ namespace Xamarin_test.ViewModels
                 Description = Description
             };
 
-            await DataStore.SaveItemAsync(newItem);
+            await DataStore.AddItemAsync(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

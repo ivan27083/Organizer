@@ -30,6 +30,9 @@
             Default Styles for all Flyout Items
             https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
             -->
+            <Style Class="Frame" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Primary}"></Setter>
+            </Style>
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White"></Setter>
             </Style>

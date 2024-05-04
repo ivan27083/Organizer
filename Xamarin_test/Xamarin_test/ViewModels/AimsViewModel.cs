@@ -10,18 +10,28 @@ namespace Xamarin_test.ViewModels
 {
     public class AimsViewModel : BaseViewModel
     {
+        private Purpose _selectedAim;
+
         Node<abstract_Item> root;
         public Command LoginCommand { get; }
 
         public AimsViewModel()
         {
-            LoginCommand = new Command(OnLoginClicked);
+            LoginCommand = new Command(OnAimSelected);
         }
-
-        private async void OnLoginClicked(object obj)
+        public Purpose SelectedAim
+        {
+            get => _selectedAim;
+            set
+            {
+                SetProperty(ref _selectedAim, value);
+                OnAimSelected(value);
+            }
+        }
+        private async void OnAimSelected(object obj)
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}?{nameof(AimEditViewModel)}={_selectedAim}");
         }
     }
 }

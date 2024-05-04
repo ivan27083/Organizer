@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using System.Numerics;
 using Xamarin.Essentials;
 using Xamarin_test.Models;
+using Xamarin_test.Services;
 
 
 namespace Xamarin_test.ViewModels
@@ -19,6 +20,7 @@ namespace Xamarin_test.ViewModels
             Title = "Efficiency";
             InitData_barchart();
         }
+        public IDataStore<Day> DataStore => DependencyService.Get<IDataStore<Day>>();
 
         private BarChart barChart;
         public BarChart BarChart

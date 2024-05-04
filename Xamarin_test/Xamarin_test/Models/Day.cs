@@ -4,18 +4,16 @@ using System.Text;
 using SkiaSharp;
 using Microcharts;
 using Xamarin_test.Classes;
-using SQLite;
 
 namespace Xamarin_test.Models
 {
-    [Table("Days")]
     public class Day
     {
-        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public DateTime day;
         public List<Daily> dailies;
         public DayOfWeek dayOfTheWeek;
+        public Daily? daily_nav {  get; set; }
         public Day()
         {
             day = DateTime.Now;

@@ -19,8 +19,18 @@
 
 
     <ContentPage.Content>
-        <Grid>
-            <Frame Margin="15,70,210,560"
+        <Grid Padding="8">
+            <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
+            <Frame Grid.Column="0" Grid.Row="0"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
@@ -31,7 +41,7 @@
                 </StackLayout>
             </Frame>
 
-            <Frame Margin="210,70,15,560"
+            <Frame Grid.Column="1" Grid.Row="0"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
@@ -44,14 +54,14 @@
 
 
             <microcharts:ChartView 
-                Margin="15,170,15,10"
+               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                 Chart="{Binding BarChart}"
                 HeightRequest="300"
                 VerticalOptions="Start"
                 HorizontalOptions="Fill"/>
 
 
-            <Frame Margin="15,510,15,25"
+            <Frame Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
