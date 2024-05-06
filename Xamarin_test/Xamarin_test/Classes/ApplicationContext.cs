@@ -17,7 +17,7 @@ namespace Xamarin_test.Classes
         public DbSet<Daily> dailies { get; set; } = null!;
         public ApplicationContext()
         {
-            _databasePath = IPath.GetDatabasePath("base.sqlite");
+            _databasePath = IPath.GetDatabasePath("base.db");
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
