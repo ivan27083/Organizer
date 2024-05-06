@@ -84,17 +84,7 @@ namespace Xamarin_test.ViewModels
             }
         }
 
-        public async void DeleteItem(Mission item) //  удаление объекта
-        {
-            try
-            {
-                var item1 = await DataStore.DeleteItemAsync(item.Id);
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Delete");
-            }
-        }
+        
 
 
     }

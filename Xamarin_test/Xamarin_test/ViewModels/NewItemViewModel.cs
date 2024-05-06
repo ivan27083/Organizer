@@ -10,7 +10,6 @@ namespace Xamarin_test.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        
         private string text;
         private string description;
         private DateTime date = DateTime.Now;

@@ -10,8 +10,7 @@
         <Label Text="Description:" FontSize="Medium" TextColor="Blue"/>
         <Label Text="{Binding Description}" FontSize="Small" TextColor="Aqua"/>
         <Button Text="Удалить" 
-        Command="{Binding DeleteItem}" 
-        CommandParameter="{Binding SelectedItem}" />
+            Command="{Binding deleteItem}"/>
     </StackLayout>
     
 </ContentPage>

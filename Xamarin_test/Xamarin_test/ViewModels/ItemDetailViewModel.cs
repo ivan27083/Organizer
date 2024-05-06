@@ -18,6 +18,11 @@ namespace Xamarin_test.ViewModels
         public int Id { get; set; }
         DateTime? date;
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
+        public Command deleteItem { get; }
+        public ItemDetailViewModel()
+        {
+            deleteItem = new Command(DeleteItem);
+        }
         public string Text
         {
             get => text;
@@ -71,6 +76,18 @@ namespace Xamarin_test.ViewModels
         async void OnItemSelected()
         {
             await Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel)}={itemId}");
+        }
+        public async void DeleteItem(object obj) //  удаление объекта
+        {
+            try
+            {
+                var item1 = await DataStore.DeleteItemAsync(itemId);
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Delete");
+            }
         }
     }
 }
