@@ -1,12 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin_test.Views.ItemEditPage">
+             x:Class="Xamarin_test.Views.ItemEditPage"
+             xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
+             Title="Edit Item">
+
+     <ContentPage.BindingContext>
+         <vm:ItemEditViewModel />
+     </ContentPage.BindingContext>
+
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ab</Color>
+        </ResourceDictionary>
+     </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="XZ CHTO TUT NADO PISAT" Command="{Binding LoadItemId}" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="8" RowSpacing="20">
+     <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="*" />
+         <ColumnDefinition Width="6*" />
+         <ColumnDefinition Width="*" />
+     </Grid.ColumnDefinitions>
+     <Grid.RowDefinitions>
+         <RowDefinition Height="*" />
+         <RowDefinition Height="2*" />
+         <RowDefinition Height="5*" />
+         <RowDefinition Height="2*" />
+         <RowDefinition Height="2*" />
+         <RowDefinition Height="2*" />
+     </Grid.RowDefinitions>
+
+     <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
+
+     <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+         <Label Text="Название задачи" FontSize="Medium"/>
+         <Frame BackgroundColor="#BFB4E4E7"
+                BorderColor="#34C6CD"
+                CornerRadius="5"
+                Padding="8"> 
+             <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" /> </Frame>
+     </StackLayout>
+
+
+     <Grid Grid.Column="1" Grid.Row="2">
+         <Grid.ColumnDefinitions>
+             <ColumnDefinition Width="*" />
+         </Grid.ColumnDefinitions>
+         <Grid.RowDefinitions>
+             <RowDefinition Height="*" />
+             <RowDefinition Height="8*" />
+         </Grid.RowDefinitions>
+
+         <Label Grid.Row="0" Text="Описание" FontSize="Medium" />
+         <Frame Grid.Row="1"
+                BackgroundColor="#BFB4E4E7"
+                BorderColor="#34C6CD"
+                CornerRadius="5"
+                Padding="8">
+             <ScrollView>
+                 <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" />
+             </ScrollView>
+         </Frame>
+     </Grid>
+
+     <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3" Margin="0,25,0,0">
+         <Label Text="Дата выполнения {Binding Date, Mode=TwoWay}" FontSize="Medium"/>
+         <Label Text="Изменить дату:" FontSize="Medium"/>
+         <Frame BackgroundColor="#BFB4E4E7"
+                BorderColor="#34C6CD"
+                CornerRadius="5"
+                Padding="8">
+             <DatePicker Format="dd MMM yyyy" MinimumDate="{Binding MinimumDate}" Date="{Binding Date}">
+             </DatePicker>
+         </Frame>
+     </StackLayout>
+
+     <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,35,0,0">
+         <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+         <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+     </StackLayout>
+ </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -10,20 +10,57 @@ using Xamarin.Essentials;
 using Xamarin_test.Models;
 using Xamarin_test.Services;
 using Xamarin_test.Views;
-
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Xamarin_test.ViewModels
 {
     public class EfficiencyViewModel : BaseViewModel
     {
-        public Command<ChartEntry> BarTapped { get; }
+        public IDataStore<Day> DataStore => DependencyService.Get<IDataStore<Day>>();
+        public Command LoadDaysCommand { get; }
+        public Command ButtonEfficiency2 { get; }
+        public ObservableCollection<Day> Days { get; }
+        
         public EfficiencyViewModel()
         {
+            Days = new ObservableCollection<Day>();
+            LoadDaysCommand = new Command(async () => await ExecuteLoadDaysCommand());
+
             Title = "Efficiency";
-            InitData_barchart();
-            //BarTapped = new Command<ChartEntry>(OnBarSelected);
+
+            ButtonEfficiency2 = new Command(OnEfficiency2);
         }
-        public IDataStore<Day> DataStore => DependencyService.Get<IDataStore<Day>>();
+
+        async Task ExecuteLoadDaysCommand()
+        {
+            IsBusy = true;
+
+            try
+            {
+                Days.Clear();
+                var days = await DataStore.GetItemsAsync(true);
+                foreach (var d in days)
+                {
+                    Days.Add(d);
+                }
+                InitData_barchart();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async void OnEfficiency2()
+        {
+           await Shell.Current.GoToAsync(nameof(EfficiencyDetailPage));
+        }
 
         /*async void OnBarSelected(ChartEntry bar)
         {
@@ -75,13 +112,14 @@ namespace Xamarin_test.ViewModels
             get => barChart;
             set => SetProperty(ref barChart, value);
         }
-        List<Day> days;
+        //List<Day> days;
         static int maxvalue = 1;
 
+
         
-        private void InitData_barchart()//ff0000  3498db
+        private void InitData_barchart()
         {
-            DateTime date1 = new DateTime(2024, 5, 1);
+            /*DateTime date1 = new DateTime(2024, 5, 1);
             List<Daily> dailies = new List<Daily>()
             {
                 new Daily()
@@ -89,10 +127,10 @@ namespace Xamarin_test.ViewModels
             days = new List<Day>()
             {
                 new Day(date1, dailies)
-            };
-            var blueColor = SKColor.Parse("#FF9040");//?????
+            };*/
+
             var chartEntries = new List<ChartEntry>();
-            foreach (Day day in days)
+            foreach (Day day in Days)
             {
                 chartEntries.Add(day.ToChartEntry());
             }
@@ -107,7 +145,7 @@ namespace Xamarin_test.ViewModels
                 ValueLabelOrientation = Orientation.Horizontal
             };
             
-            if (days.Count < 4) BarChart.LabelOrientation = Orientation.Horizontal;
+            if (Days.Count < 4) BarChart.LabelOrientation = Orientation.Horizontal;
         }
 
         public string Text1_notdone { get; set; } = "Количество невыполненных задач: " + "10";

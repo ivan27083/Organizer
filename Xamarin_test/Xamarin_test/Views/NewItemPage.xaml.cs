@@ -11,8 +11,6 @@ namespace Xamarin_test.Views
 {
     public partial class NewItemPage : ContentPage
     {
-        public Mission Item { get; set; }
-
         public NewItemPage()
         {
             InitializeComponent();

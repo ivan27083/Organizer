@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
+             xmlns:model="clr-namespace:Xamarin_test.Models" 
              Title="{Binding Title}"
              x:Class="Xamarin_test.Views.EfficiencyPage">
 
@@ -19,42 +20,42 @@
 
 
     <ContentPage.Content>
-        <Grid Padding="8">
-            <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="*" />
+        <RefreshView x:DataType="vm:EfficiencyViewModel" Command="{Binding LoadDaysCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <Grid Padding="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="2*" />
-                  <RowDefinition Height="2*" />
-            </Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
 
-            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
-            <Frame Grid.Column="0" Grid.Row="0"
+                <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
+                <Frame Grid.Column="0" Grid.Row="0"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
-                <StackLayout>
-                    <Label HorizontalTextAlignment="Center"
+                    <StackLayout>
+                        <Label HorizontalTextAlignment="Center"
                            Text="{Binding Text1_notdone}"/>
-                </StackLayout>
-            </Frame>
+                    </StackLayout>
+                </Frame>
 
-            <Frame Grid.Column="1" Grid.Row="0"
+                <Frame Grid.Column="1" Grid.Row="0"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
-                <StackLayout>
-                    <Label HorizontalTextAlignment="Center"
+                    <StackLayout>
+                        <Label HorizontalTextAlignment="Center"
                            Text="{Binding Text2_done}"/>
-                </StackLayout>
-            </Frame>
+                    </StackLayout>
+                </Frame>
 
-
-            <microcharts:ChartView 
+                <microcharts:ChartView 
                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                 Chart="{Binding BarChart}"
                 HeightRequest="300"
@@ -62,18 +63,29 @@
                 HorizontalOptions="Fill"/>
 
 
-            <Frame Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+                <Frame Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
                    BackgroundColor="#BFB4E4E7"
                    BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
-                <StackLayout>
-                    <Label HorizontalTextAlignment="Center"
-                           Text="{Binding Text3_aims}"/>
-                </StackLayout>
-            </Frame>
-        </Grid>
-  </ContentPage.Content>
+                    <StackLayout>
+                        <Label HorizontalTextAlignment="Center" Text="Дополнительная информация"/>
+                        <CollectionView x:Name="ItemsListView"
+                                        ItemsSource="{Binding Days}"
+                                        SelectionMode="None">   
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Padding="20" x:DataType="model:Day" BackgroundColor="#9931ADB3" Orientation="Horizontal" >
+                                        <Button Text="{Binding day}" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EfficiencyViewModel}}, Path=ButtonEfficiency2}" HorizontalOptions="FillAndExpand"></Button>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </RefreshView>
+    </ContentPage.Content>
 
 
 </ContentPage>

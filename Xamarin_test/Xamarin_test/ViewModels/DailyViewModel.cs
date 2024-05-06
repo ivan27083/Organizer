@@ -13,15 +13,22 @@ namespace Xamarin_test.ViewModels
 {
     public class DailyViewModel : BaseViewModel
     {
-        public Command OpenLoad{ get; }
         public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
+        public ObservableCollection<Daily> Dailies { get; }
+        public Command LoadItemsCommand{ get; }
+        public Command AddItemCommand { get; }
+        public Command<Daily> ItemTapped { get; }
         public DailyViewModel()
         {
             Title = "Dailies";
-            OpenLoad = new Command(async () => await ExecuteLoadItemsCommand());
+            Dailies = new ObservableCollection<Daily>();
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+
+            ItemTapped = new Command<Daily>(OnItemSelected);
+            AddItemCommand = new Command(OnAddItem);
         }
         private Daily _selectedDaily;
-        public ObservableCollection <Daily> Dailys { get; }
+        
         
 
         async Task ExecuteLoadItemsCommand()
@@ -30,11 +37,11 @@ namespace Xamarin_test.ViewModels
 
             try
             {
-               Dailys.Clear();
+               Dailies.Clear();
                 var dailys = await DataStore.GetItemsAsync(true);
                 foreach (var daily in dailys)
                 {
-                    Dailys.Add(daily);
+                    Dailies.Add(daily);
                 }
             }
             catch (Exception ex)
@@ -59,6 +66,20 @@ namespace Xamarin_test.ViewModels
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             await Shell.Current.GoToAsync($"//{nameof(DailyEditPage)}?{nameof(DailyEditViewModel)}={daily.Id}");
+        }
+        private async void OnAddItem(object obj)
+        {
+            await Shell.Current.GoToAsync(nameof(NewDailyPage));
+        }
+
+        async void OnItemSelected(Daily daily)
+        {
+            if (daily == null)
+                return;
+
+            // This will push the ItemDetailPage onto the navigation stack
+
+            await Shell.Current.GoToAsync($"{nameof(DailyDetailPage)}?{nameof(DailyDetailViewModel.ItemId)}={daily.Id}");
         }
     }
 }

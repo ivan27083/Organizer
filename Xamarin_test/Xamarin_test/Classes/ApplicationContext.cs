@@ -4,12 +4,14 @@ using System.Text;
 using Xamarin_test.Models;
 using Microsoft.EntityFrameworkCore;
 using Xamarin_test;
+using Xamarin.Forms;
 
 namespace Xamarin_test.Classes
 {
     public class ApplicationContext : DbContext
     {
-        private string _databasePath;
+        private string dbPath;
+        string DATABASE_NAME = "base.db";
         IPath IPath;
         public DbSet<Day> days { get; set; } = null!;
         public DbSet<Mission> missions { get; set; } = null!;
@@ -17,12 +19,12 @@ namespace Xamarin_test.Classes
         public DbSet<Daily> dailies { get; set; } = null!;
         public ApplicationContext()
         {
-            _databasePath = IPath.GetDatabasePath("base.db");
+            dbPath = DependencyService.Get<IPath>().GetDatabasePath(DATABASE_NAME);
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={_databasePath}");
+            optionsBuilder.UseSqlite($"Filename={dbPath}");
             optionsBuilder.LogTo(Console.WriteLine);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

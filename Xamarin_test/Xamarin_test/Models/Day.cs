@@ -11,7 +11,7 @@ namespace Xamarin_test.Models
     public class Day
     {
         public int Id { get; set; }
-        public DateTime day;
+        public DateTime day { get; set; }
         [NotMapped]public List<Daily> dailies;
         public DayOfWeek? dayOfTheWeek;
         public Daily? daily_nav {  get; set; }

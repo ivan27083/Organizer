@@ -21,7 +21,7 @@ namespace Xamarin_test.ViewModels
         public Command<Mission> ItemTapped { get; }
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "Tasks";
             Items = new ObservableCollection<Mission>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 

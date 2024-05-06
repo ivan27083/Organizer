@@ -18,6 +18,9 @@ namespace Xamarin_test.ViewModels
         public int Id { get; set; }
         DateTime? date;
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
+
         public string Text
         {
             get => text;

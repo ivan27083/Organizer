@@ -30,6 +30,18 @@
                 <Setter Property="TextColor" Value="#144A4D"></Setter>
             </Style>
             
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="#144A4D"></Setter>
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="#144A4D"></Setter>
+            </Style>
+
+            <Style TargetType="DatePicker">
+                <Setter Property="TextColor" Value="#144A4D"></Setter>
+            </Style>
+
             <Style TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
                 <Setter Property="BorderColor" Value="#34C6CD"></Setter>
@@ -84,7 +96,7 @@
     
     <TabBar>
         <Tab Title="Daily" Icon="icon_about.png">
-            <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+            <ShellContent Route="DailyPage" ContentTemplate="{DataTemplate local:DailyPage}" />
         </Tab>
 
         <Tab Title="Tasks" Icon="icon_feed.png">

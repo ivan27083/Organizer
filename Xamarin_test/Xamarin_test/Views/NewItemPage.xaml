@@ -22,29 +22,24 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <Grid Padding="8">
+        <Grid Padding="8" RowSpacing="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="6*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="5*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
 
             <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
                 <Label Text="Название задачи" FontSize="Medium"/>
-                <Frame BackgroundColor="#BFB4E4E7"
-                       BorderColor="#34C6CD"
-                       CornerRadius="5"
-                       Padding="8"> 
+                <Frame> 
                     <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" /> </Frame>
             </StackLayout>
 
@@ -59,11 +54,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Text="Описание" FontSize="Medium" />
-                <Frame Grid.Row="1"
-                       BackgroundColor="#BFB4E4E7"
-                       BorderColor="#34C6CD"
-                       CornerRadius="5"
-                       Padding="8">
+                <Frame Grid.Row="1">
                     <ScrollView>
                         <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" />
                     </ScrollView>
@@ -76,12 +67,12 @@
                        BorderColor="#34C6CD"
                        CornerRadius="5"
                        Padding="8">
-                    <DatePicker Format="dd MMM yyyy" MinimumDate="{Binding MinimumDate}">
+                    <DatePicker Format="dd MMM yyyy" MinimumDate="{Binding MinimumDate}" Date="{Binding Date}">
                     </DatePicker>
                 </Frame>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,35,0,0">
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,15,0,0">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                 <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
             </StackLayout>

@@ -8,17 +8,14 @@ using Xamarin_test.Services;
 
 namespace Xamarin_test.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewDailyViewModel : BaseViewModel
     {
-        
         private string text;
         private string description;
-        private DateTime date = DateTime.Now;
-        public DateTime MinimumDate;
-        public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
-        public NewItemViewModel()
+        public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
+        
+        public NewDailyViewModel()
         {
-            MinimumDate = DateTime.Now;
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
@@ -28,14 +25,7 @@ namespace Xamarin_test.ViewModels
         private bool ValidateSave()
         {
             return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description)
-                && date> MinimumDate;
-        }
-
-        public DateTime Date
-        {
-            get => date;
-            set => SetProperty(ref date, value);
+                && !String.IsNullOrWhiteSpace(description);
         }
 
         public string Text
@@ -55,23 +45,20 @@ namespace Xamarin_test.ViewModels
 
         private async void OnCancel()
         {
-            // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
 
         private async void OnSave()
         {
-            Mission newItem = new Mission()
+            Daily newDaily = new Daily()
             {
                 Id = 0, // id errors mb
                 Text = Text,
-                Description = Description,
-                Date = Date
+                Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddItemAsync(newDaily);
 
-            // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
     }
