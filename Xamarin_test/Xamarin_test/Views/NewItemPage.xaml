@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_test.Views.NewItemPage"
-             Shell.PresentationMode="ModalAnimated"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="New Item"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
@@ -17,6 +16,10 @@
             <Color x:Key="Accent">#96d1ab</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <Grid Padding="8">
@@ -73,7 +76,8 @@
                        BorderColor="#34C6CD"
                        CornerRadius="5"
                        Padding="8">
-                    <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
+                    <DatePicker Format="dd MMM yyyy" MinimumDate="{Binding MinimumDate}">
+                    </DatePicker>
                 </Frame>
             </StackLayout>
 

@@ -12,9 +12,12 @@ namespace Xamarin_test.ViewModels
     {
         private string text;
         private string description;
+        private DateTime date;
+        public DateTime MinimumDate;
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public NewItemViewModel()
         {
+            MinimumDate = DateTime.Now;
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
@@ -24,7 +27,14 @@ namespace Xamarin_test.ViewModels
         private bool ValidateSave()
         {
             return !String.IsNullOrWhiteSpace(text)
-                && !String.IsNullOrWhiteSpace(description);
+                && !String.IsNullOrWhiteSpace(description)
+                && date> MinimumDate;
+        }
+
+        public DateTime Date
+        {
+            get => date;
+            set => SetProperty(ref date, value);
         }
 
         public string Text
@@ -54,7 +64,8 @@ namespace Xamarin_test.ViewModels
             {
                 Id = 0, // id errors mb
                 Text = Text,
-                Description = Description
+                Description = Description,
+                Date = Date
             };
 
             await DataStore.AddItemAsync(newItem);
