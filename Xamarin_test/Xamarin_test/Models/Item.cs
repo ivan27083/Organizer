@@ -22,9 +22,9 @@ namespace Xamarin_test.Models
 
     public class Purpose : abstract_Item
     {
-        public int Group { get; set; }
-        public int Parent {  get; set; }
-        public int Children { get; set; }
+        public int? Group { get; set; }
+        public int? Parent {  get; set; }
+        public int? Children { get; set; }
         public Purpose? purp_nav { get; set; }
         public Mission? mission_nav { get; set; }
         public List<Purpose> purposes { get; set; }
@@ -44,7 +44,7 @@ namespace Xamarin_test.Models
     }
     public class Mission : abstract_Item
     {
-        public int Group { get; set; }
+        public int? Group { get; set; }
         public List<Purpose> purposes { get; set; }
         public int Parent { get; set; }
         //public string Difficulty { get; set; } //later

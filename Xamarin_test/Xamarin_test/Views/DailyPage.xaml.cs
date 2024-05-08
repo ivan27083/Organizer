@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin_test.ViewModels;
 
 namespace Xamarin_test.Views
 {
@@ -10,6 +11,7 @@ namespace Xamarin_test.Views
         public DailyPage()
         {
             InitializeComponent();
+            BindingContext = new DailyViewModel();
         }
     }
 }

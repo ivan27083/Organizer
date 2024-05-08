@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Xamarin_test.Views"
+       xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
        Title="Xamarin_test"
        x:Class="Xamarin_test.AppShell">
 
@@ -29,7 +30,7 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="#144A4D"></Setter>
             </Style>
-            
+
             <Style TargetType="Editor">
                 <Setter Property="TextColor" Value="#144A4D"></Setter>
             </Style>
@@ -42,6 +43,9 @@
                 <Setter Property="TextColor" Value="#144A4D"></Setter>
             </Style>
 
+            <Style TargetType="skia:SKCanvasView">
+                <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
+            </Style>
             <Style TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
                 <Setter Property="BorderColor" Value="#34C6CD"></Setter>
@@ -93,7 +97,7 @@
             </Style>
         </ResourceDictionary>
     </Shell.Resources>
-    
+
     <TabBar>
         <Tab Title="Daily" Icon="icon_about.png">
             <ShellContent Route="DailyPage" ContentTemplate="{DataTemplate local:DailyPage}" />
@@ -104,7 +108,7 @@
         </Tab>
 
         <Tab Title="Aims" Icon="xamarin_logo.png">
-            <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+            <ShellContent Route="AimsPage" ContentTemplate="{DataTemplate local:AimsPage}" />
         </Tab>
 
         <Tab Title="Efficiency" Icon="xamarin_logo.png">
