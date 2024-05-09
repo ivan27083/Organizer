@@ -48,11 +48,10 @@ namespace Xamarin_test.Models
         public List<Purpose> purposes { get; set; }
         public int Parent { get; set; }
         //public string Difficulty { get; set; } //later
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         public Mission()
         {
             Group = 0;
-            Date = null;
         }
     }
 

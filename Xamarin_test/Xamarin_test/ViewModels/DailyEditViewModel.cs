@@ -20,6 +20,22 @@ namespace Xamarin_test.ViewModels
         public int day;
         List<Day> days;
         public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
+
+        public DailyEditViewModel()
+        {
+            SaveCommand = new Command(OnSave, ValidateSave);
+            CancelCommand = new Command(OnCancel);
+            this.PropertyChanged +=
+                (_, __) => SaveCommand.ChangeCanExecute();
+        }
+
+        private bool ValidateSave()
+        {
+            return !String.IsNullOrWhiteSpace(text)
+                && !String.IsNullOrWhiteSpace(description)
+                && day>0;
+        }
+
         public string Text
         {
             get => text;
@@ -76,7 +92,7 @@ namespace Xamarin_test.ViewModels
             await Shell.Current.GoToAsync("..");
         }
 
-        public async void UpdateItem(Daily daily) // изменение объекта
+        /*public async void UpdateItem(Daily daily) // изменение объекта
         {
             try
             {
@@ -86,7 +102,7 @@ namespace Xamarin_test.ViewModels
             {
                 Debug.WriteLine("Failed to Update");
             }
-        }
+        }*/
 
         public async void DeleteItem(Daily daily) //  удаление объекта
         {
@@ -99,6 +115,7 @@ namespace Xamarin_test.ViewModels
                 Debug.WriteLine("Failed to Delete");
             }
         }
+        
         void picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
@@ -113,6 +130,32 @@ namespace Xamarin_test.ViewModels
             //{
             //    DisplayAlert("Выбранный день", selectedDay, "OK");
             //}
+        }
+
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
+
+        private async void OnCancel()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async void OnSave()
+        {
+            try
+            {
+                Daily changedDaily = new Daily();
+                changedDaily.Text = Text;
+                changedDaily.Description = Description;
+                changedDaily.Day = (DayOfWeek)DayDaily;
+
+                var daily1 = await DataStore.UpdateItemAsync(changedDaily);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Update");
+            }
+            await Shell.Current.GoToAsync("..");
         }
 
     }

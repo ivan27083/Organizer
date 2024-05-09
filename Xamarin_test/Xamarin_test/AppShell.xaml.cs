@@ -15,6 +15,7 @@ namespace Xamarin_test
             Routing.RegisterRoute(nameof(DailyDetailPage), typeof(DailyDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(NewDailyPage), typeof(NewDailyPage));
+            Routing.RegisterRoute(nameof(ItemEditPage), typeof(ItemEditPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

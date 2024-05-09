@@ -53,15 +53,9 @@
                 </Frame>
             </Grid>
 
-            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,15,0,0">
-                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Delete" Command="{Binding DeleteCommand}" HorizontalOptions="FillAndExpand"></Button>
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5"  Margin="0,30,0,0">
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,30,0,0">
                 <Label Text="Выберите день недели:" />
-                <Picker x:Name="dayPicker" SelectedIndexChanged="picker_SelectedIndexChanged">
+                <Picker x:Name="dayPicker">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Понедельник</x:String>
@@ -74,6 +68,11 @@
                         </x:Array>
                     </Picker.ItemsSource>
                 </Picker>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5"  Margin="0,15,0,0">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

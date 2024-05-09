@@ -3,13 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_test.Views.DailyDetailPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels">
+    
+    <ContentPage.BindingContext>
+        <vm:DailyDetailViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-     <StackLayout Spacing="20" Padding="15">
-         <Label Text="Text:" FontSize="Medium"/>
-         <Label Text="{Binding Text}" FontSize="Small"/>
-         <Label Text="Description:" FontSize="Medium"/>
-         <Label Text="{Binding Description}" FontSize="Small"/>
-         <Button Text="Удалить" Command="{Binding deleteItem}"/>
-     </StackLayout>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Text:" FontSize="Medium"/>
+            <Label Text="{Binding Text}" FontSize="Small"/>
+            <Label Text="Description:" FontSize="Medium"/>
+            <Label Text="{Binding Description}" FontSize="Small"/>
+            <Button Text="Удалить" Command="{Binding deleteItem}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

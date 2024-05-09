@@ -1,5 +1,6 @@
-﻿using System;
+﻿    using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin_test.Models;
@@ -14,14 +15,15 @@ namespace Xamarin_test.ViewModels
         private int itemId;
         private string text;
         private string description;
-        
         public int Id { get; set; }
-        DateTime? date;
+        public string date;
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public Command deleteItem { get; }
+        public Command EditItemCommand { get; }
         public ItemDetailViewModel()
         {
             deleteItem = new Command(DeleteItem);
+            EditItemCommand = new Command(OnItemSelected);
         }
         public string Text
         {
@@ -34,7 +36,7 @@ namespace Xamarin_test.ViewModels
             get => description;
             set => SetProperty(ref description, value);
         }
-        public DateTime? Date
+        public string Date
         {
             get => date;
             set => SetProperty(ref date, value);
@@ -52,7 +54,9 @@ namespace Xamarin_test.ViewModels
             }
         }
 
-        public async void LoadItemId(int itemId)
+        public async 
+        Task
+LoadItemId(int itemId)
         {
             try
             {
@@ -60,7 +64,7 @@ namespace Xamarin_test.ViewModels
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;
-                Date = item.Date;
+                Date = item.Date.ToString("d");
             }
             catch (Exception)
             {
@@ -75,7 +79,7 @@ namespace Xamarin_test.ViewModels
 
         async void OnItemSelected()
         {
-            await Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel)}={itemId}");
+            await Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel.ItemId)}={ItemId}");
         }
         public async void DeleteItem(object obj) //  удаление объекта
         {

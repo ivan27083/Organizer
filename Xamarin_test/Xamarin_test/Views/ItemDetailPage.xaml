@@ -4,13 +4,37 @@
              x:Class="Xamarin_test.Views.ItemDetailPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" TextColor="Blue"/>
-        <Label Text="{Binding Text}" FontSize="Small" TextColor="Aqua"/>
-        <Label Text="Description:" FontSize="Medium" TextColor="Blue"/>
-        <Label Text="{Binding Description}" FontSize="Small" TextColor="Aqua"/>
-        <Button Text="Удалить" 
-            Command="{Binding deleteItem}"/>
-    </StackLayout>
-    
+
+    <ContentPage.BindingContext>
+        <vm:ItemDetailViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" Command="{Binding EditItemCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Spacing="10" Padding="15">
+            <StackLayout>
+                <Label Text="Задача:" FontSize="Small"/>
+                <Frame>
+                    <Label Text="{Binding Text}" FontSize="Medium"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label Margin="0,8,0,0" Text="Описание:" FontSize="Small"/>
+                <Frame>
+                    <ScrollView>
+                        <Label Text="{Binding Description}" FontSize="Medium"/>
+                    </ScrollView>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label Margin="0,8,0,0" Text="Дата:" FontSize="Small"/>
+                <Frame>
+                    <Label Text="{Binding Date}" FontSize="Medium"/>
+                </Frame>
+                <Button Margin="0,15,0,0" Text="Удалить" Command="{Binding deleteItem}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

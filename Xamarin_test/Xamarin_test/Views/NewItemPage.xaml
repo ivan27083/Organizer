@@ -63,10 +63,7 @@
 
             <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="3" Margin="0,25,0,0">
                 <Label Text="Дата выполнения" FontSize="Medium"/>
-                <Frame BackgroundColor="#BFB4E4E7"
-                       BorderColor="#34C6CD"
-                       CornerRadius="5"
-                       Padding="8">
+                <Frame>
                     <DatePicker Format="dd MMM yyyy" MinimumDate="{Binding MinimumDate}" Date="{Binding Date}">
                     </DatePicker>
                 </Frame>
