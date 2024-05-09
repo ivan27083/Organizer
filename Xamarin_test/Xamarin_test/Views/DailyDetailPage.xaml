@@ -7,14 +7,27 @@
     <ContentPage.BindingContext>
         <vm:DailyDetailViewModel/>
     </ContentPage.BindingContext>
-    
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" Command="{Binding editItemCommand}" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text:" FontSize="Medium"/>
-            <Label Text="{Binding Text}" FontSize="Small"/>
-            <Label Text="Description:" FontSize="Medium"/>
-            <Label Text="{Binding Description}" FontSize="Small"/>
-            <Button Text="Удалить" Command="{Binding deleteItem}"/>
+        <StackLayout Spacing="10" Padding="15">
+            <StackLayout>
+                <Label Text="Ежедневная задача:" FontSize="Small"/>
+                <Frame>
+                    <Label Text="{Binding Text}" FontSize="Medium"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label Margin="0,8,0,0" Text="Описание:" FontSize="Small"/>
+                <Frame>
+                    <ScrollView>
+                        <Label Text="{Binding Description}" FontSize="Medium"/>
+                    </ScrollView>
+                </Frame>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

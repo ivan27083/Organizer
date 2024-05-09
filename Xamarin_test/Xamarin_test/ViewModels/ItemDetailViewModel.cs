@@ -54,9 +54,7 @@ namespace Xamarin_test.ViewModels
             }
         }
 
-        public async 
-        Task
-LoadItemId(int itemId)
+        public async void LoadItemId(int itemId)
         {
             try
             {
@@ -79,7 +77,7 @@ LoadItemId(int itemId)
 
         async void OnItemSelected()
         {
-            await Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel.ItemId)}={ItemId}");
+            Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel.ItemId)}={ItemId}");
         }
         public async void DeleteItem(object obj) //  удаление объекта
         {

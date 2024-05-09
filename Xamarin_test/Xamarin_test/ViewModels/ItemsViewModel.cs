@@ -40,6 +40,7 @@ namespace Xamarin_test.ViewModels
                 foreach (var mission in missions)
                 {
                     Items.Add(mission);
+                    mission.StringDate = mission.Date.ToString("d");
                 }
             }
             catch (Exception ex)

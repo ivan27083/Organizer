@@ -22,27 +22,41 @@
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Dailies}"
                 SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+            </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:Daily" BackgroundColor="#31ADB3">
-                            <Label Text="{Binding Text}"
-                                TextColor="Aqua"
-                                LineBreakMode="NoWrap" 
-                                Style="{DynamicResource ListItemTextStyle}" 
-                                FontSize="16" />
-                            <Label Text="{Binding Description}" 
-                                TextColor="Blue"
-                                LineBreakMode="NoWrap"
-                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                FontSize="13" />
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    NumberOfTapsRequired="1"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DailyViewModel}}, Path=ItemTapped}"		
-                                    CommandParameter="{Binding .}">
-                                </TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                            <Frame BackgroundColor="#9931ADB3" Padding="10" x:DataType="model:Daily">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                        <Label Text="{Binding Text}"
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               FontSize="19" 
+                                               Grid.Column="0"
+                                               Grid.Row="0"/>
+                                         <Label Text="{Binding Description}" 
+                                                FontSize="15"
+                                                Style="{DynamicResource ListItemTextStyle}"  
+                                                Grid.Column="0"
+                                                Grid.Row="1"/>
+                                        <CheckBox Grid.Column="1" Grid.RowSpan="2" Color="White"> </CheckBox>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                NumberOfTapsRequired="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DailyViewModel}}, Path=ItemTapped}"	
+                                                CommandParameter="{Binding .}">
+                                            </TapGestureRecognizer>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                            </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

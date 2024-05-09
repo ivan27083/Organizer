@@ -27,7 +27,6 @@ namespace Xamarin_test.ViewModels
             ItemTapped = new Command<Daily>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }
-        private Daily _selectedDaily;
         
         
 
@@ -53,20 +52,7 @@ namespace Xamarin_test.ViewModels
                 IsBusy = false;
             }
         }
-        public Daily SelectedDaily
-        {
-            get => _selectedDaily;
-            set
-            {
-                SetProperty(ref _selectedDaily, value);
-                OnAimSelected(value);
-            }
-        }
-        private async void OnAimSelected(Daily daily)
-        {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(DailyEditPage)}?{nameof(DailyEditViewModel)}={daily.Id}");
-        }
+        
         private async void OnAddItem(object obj)
         {
             await Shell.Current.GoToAsync(nameof(NewDailyPage));

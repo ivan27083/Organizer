@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -49,6 +50,7 @@ namespace Xamarin_test.Models
         public int Parent { get; set; }
         //public string Difficulty { get; set; } //later
         public DateTime Date { get; set; }
+        [NotMapped] public string StringDate { get; set; }
         public Mission()
         {
             Group = 0;

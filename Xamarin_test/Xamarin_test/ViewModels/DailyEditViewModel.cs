@@ -16,6 +16,7 @@ namespace Xamarin_test.ViewModels
         private int dailyId;
         private string text;
         private string description;
+
         public int Id { get; set; }
         public int day;
         List<Day> days;
@@ -92,23 +93,12 @@ namespace Xamarin_test.ViewModels
             await Shell.Current.GoToAsync("..");
         }
 
-        /*public async void UpdateItem(Daily daily) // изменение объекта
-        {
-            try
-            {
-                var daily1 = await DataStore.UpdateItemAsync(daily);
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Update");
-            }
-        }*/
-
         public async void DeleteItem(Daily daily) //  удаление объекта
         {
             try
             {
                 var daily1 = await DataStore.DeleteItemAsync(daily.Id);
+                await Shell.Current.GoToAsync("..");
             }
             catch (Exception)
             {
