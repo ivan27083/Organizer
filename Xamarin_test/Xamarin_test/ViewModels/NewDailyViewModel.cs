@@ -52,9 +52,9 @@ namespace Xamarin_test.ViewModels
         {
             Daily newDaily = new Daily()
             {
-                Id = 0, // id errors mb
                 Text = Text,
-                Description = Description
+                Description = Description,
+                Day = DateTime.Now.DayOfWeek
             };
 
             await DataStore.AddItemAsync(newDaily);

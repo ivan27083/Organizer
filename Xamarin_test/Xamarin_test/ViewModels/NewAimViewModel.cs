@@ -13,6 +13,7 @@ namespace Xamarin_test.ViewModels
         private string text;
         private string description;
         private int id;
+        public int group;
         public IDataStore<Purpose> DataStore => DependencyService.Get<IDataStore<Purpose>>();
         private bool ValidateSave()
         {

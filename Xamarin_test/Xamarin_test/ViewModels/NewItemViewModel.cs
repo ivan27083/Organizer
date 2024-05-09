@@ -12,6 +12,7 @@ namespace Xamarin_test.ViewModels
     {
         private string text;
         private string description;
+        public int group;
         private DateTime date = DateTime.Now;
         public DateTime MinimumDate;
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
@@ -62,7 +63,6 @@ namespace Xamarin_test.ViewModels
         {
             Mission newItem = new Mission()
             {
-                Id = 0, // id errors mb
                 Text = Text,
                 Description = Description,
                 Date = Date

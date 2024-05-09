@@ -84,8 +84,6 @@ namespace Xamarin_test.ViewModels
             }
         }
 
-        
-
 
     }
 }

@@ -17,7 +17,7 @@ namespace Xamarin_test.ViewModels
         private string text;
         private string description;
         public int Id { get; set; }
-        int day;
+        public int day;
         List<Day> days;
         public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
         public string Text
@@ -99,5 +99,21 @@ namespace Xamarin_test.ViewModels
                 Debug.WriteLine("Failed to Delete");
             }
         }
+        void picker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            DayDaily = picker.SelectedIndex+1;
+        }
+
+        private void OnButtonClick(object sender, EventArgs e)
+        {
+            
+            //string selectedDay = dayPicker.SelectedItem as string;
+            //if (!string.IsNullOrEmpty(selectedDay))
+            //{
+            //    DisplayAlert("Выбранный день", selectedDay, "OK");
+            //}
+        }
+
     }
 }

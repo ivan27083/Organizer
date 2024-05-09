@@ -1,12 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin_test.Views.DailyEditPage">
+             x:Class="Xamarin_test.Views.DailyEditPage"
+             xmlns:vm="clr-namespace:Xamarin_test.ViewModels">
+
+  <ContentPage.BindingContext>
+      <vm:DailyEditViewModel />
+  </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="8" RowSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                <Label Text="Название ежедневной задачи" FontSize="Medium"/>
+                <Frame>
+                    <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
+                </Frame>
+            </StackLayout>
+
+
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Описание" FontSize="Medium" />
+                <Frame Grid.Row="1">
+                    <ScrollView>
+                        <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" />
+                    </ScrollView>
+                </Frame>
+            </Grid>
+
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="4"  Margin="0,15,0,0">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Delete" Command="{Binding DeleteCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="5"  Margin="0,30,0,0">
+                <Label Text="Выберите день недели:" />
+                <Picker x:Name="dayPicker" SelectedIndexChanged="picker_SelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Понедельник</x:String>
+                            <x:String>Вторник</x:String>
+                            <x:String>Среда</x:String>
+                            <x:String>Четверг</x:String>
+                            <x:String>Пятница</x:String>
+                            <x:String>Суббота</x:String>
+                            <x:String>Воскресенье</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

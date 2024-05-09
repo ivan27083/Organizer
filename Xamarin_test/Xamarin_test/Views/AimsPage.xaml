@@ -5,14 +5,29 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="{Binding Title}">
-
+    <ContentPage.BindingContext>
+        <vm:AimsViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <AbsoluteLayout>
-                <skia:SKCanvasView PaintSurface="OnCanvasViewPaintSurface" Grid.Row = "{Binding Row}" Grid.ColumnSpan = "{Binding ColumnSpan}" Grid.Column = "{Binding Column}" Margin="0,30,0,0">
-                     <skia:SKCanvasView.GestureRecognizers>
-                         <TapGestureRecognizer Tapped="OnCanvasViewTapped" />
-                     </skia:SKCanvasView.GestureRecognizers>
-                 </skia:SKCanvasView>
-        </AbsoluteLayout>
+        <StackLayout>
+            <Frame 
+                BorderColor="Transparent"
+                WidthRequest="{Binding frame_w}"
+                HeightRequest="{Binding frame_h}">
+                <skia:SKCanvasView PaintSurface="OnCanvasViewPaintSurface" Margin="0,30,0,0">
+                        <skia:SKCanvasView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCanvasViewTapped" />
+                        </skia:SKCanvasView.GestureRecognizers>
+                </skia:SKCanvasView>
+            </Frame>
+            <StackLayout>
+                <Label Text ="{Binding text}"/>
+                <Label Text ="{Binding description}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"  Margin="0,15,0,0">
+                <Button Text="Добавить подцель" Command="{Binding AddCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Добавить задачу" Command="{Binding AddMissionCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

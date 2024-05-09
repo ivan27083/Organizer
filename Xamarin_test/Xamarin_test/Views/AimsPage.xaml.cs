@@ -38,12 +38,16 @@ namespace Xamarin_test.Views
         static double xamarinWidth = mainDisplayInfo.Width / mainDisplayInfo.Density;
         static double xamarinHeight = mainDisplayInfo.Height / mainDisplayInfo.Density;
 
+        public double frame_w { get; set; } = xamarinWidth;
+        public double frame_h { get; set; } = 3 * xamarinHeight / 5;
+        
+
         void children_values(int i, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
         {
             //child
-            radius1 = (float)(Math.Min(xamarinWidth, xamarinHeight) / (kolvo * 2));
+            radius1 = (float)(Math.Min(frame_w, frame_h) / (kolvo * 2));
             radius2 = radius1;
-            double radius = Math.Min(xamarinWidth, xamarinHeight) / 4;
+            double radius = Math.Min(frame_w, frame_h) / 4;
             double angle = i * Math.PI / 4;
             x = (float)(centerX + radius * Math.Cos(angle));
             y = (float)(centerY - radius * Math.Sin(angle));
@@ -53,15 +57,15 @@ namespace Xamarin_test.Views
         {
             if (var == 1)//current
             {
-                x = (float)(xamarinWidth / 2 - info_Width / 2);
-                y = (float)(xamarinHeight / 2 - info_Height / 2);
+                x = (float)(frame_w / 2 - info_Width / 2);
+                y = (float)(frame_h / 2 - info_Height / 2);
                 radius1 = 50; radius2 = 50;
             }
 
             if (var == 2)//parent
             {
-                x = (float)(xamarinWidth / 2 - info_Width / 2);
-                y = (float)(xamarinHeight / 2 - info_Height / 2 + xamarinHeight / 5);
+                x = (float)(frame_w / 2 - info_Width / 2);
+                y = (float)(frame_h / 2 - info_Height / 2 + frame_h / 5);
                 radius1 = 30; radius2 = 30;
             }
         }

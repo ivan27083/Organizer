@@ -15,6 +15,12 @@ namespace Xamarin_test.ViewModels
         private string text;
         private string description;
         public int Id { get; set; }
+
+        public Command deleteItem { get; }
+        public DailyDetailViewModel()
+        {
+            deleteItem = new Command(DeleteItem);
+        }
         public string Text
         {
             get => text;
@@ -50,6 +56,18 @@ namespace Xamarin_test.ViewModels
             catch (Exception)
             {
                 Debug.WriteLine("Failed to Load Item");
+            }
+        }
+        public async void DeleteItem(object obj) //  удаление объекта
+        {
+            try
+            {
+                var item1 = await DataStore.DeleteItemAsync(itemId);
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Delete");
             }
         }
     }

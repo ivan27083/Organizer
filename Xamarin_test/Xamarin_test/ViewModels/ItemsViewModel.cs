@@ -24,7 +24,7 @@ namespace Xamarin_test.ViewModels
             Title = "Tasks";
             Items = new ObservableCollection<Mission>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
+            _ = ExecuteLoadItemsCommand();
             ItemTapped = new Command<Mission>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }
@@ -77,7 +77,6 @@ namespace Xamarin_test.ViewModels
         {
             if (mission == null)
                 return;
-          
             // This will push the ItemDetailPage onto the navigation stack
 
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={mission.Id}");

@@ -6,13 +6,15 @@ using Xamarin_test.Views;
 
 namespace Xamarin_test
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(DailyDetailPage), typeof(DailyDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(NewDailyPage), typeof(NewDailyPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

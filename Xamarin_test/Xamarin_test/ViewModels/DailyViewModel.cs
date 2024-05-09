@@ -23,7 +23,7 @@ namespace Xamarin_test.ViewModels
             Title = "Dailies";
             Dailies = new ObservableCollection<Daily>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
+            _ = ExecuteLoadItemsCommand();
             ItemTapped = new Command<Daily>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }

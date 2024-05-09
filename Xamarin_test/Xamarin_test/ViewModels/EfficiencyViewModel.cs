@@ -27,6 +27,7 @@ namespace Xamarin_test.ViewModels
         {
             Days = new ObservableCollection<Day>();
             LoadDaysCommand = new Command(async () => await ExecuteLoadDaysCommand());
+            _ = ExecuteLoadDaysCommand();
 
             Title = "Efficiency";
 
@@ -40,7 +41,7 @@ namespace Xamarin_test.ViewModels
             try
             {
                 Days.Clear();
-                var days = await DataStore.GetItemsAsync(true);
+                 var days = await DataStore.GetItemsAsync(true);
                 foreach (var d in days)
                 {
                     Days.Add(d);

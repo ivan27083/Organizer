@@ -22,15 +22,29 @@ namespace Xamarin_test.ViewModels
         public IDataStore<Mission> DataStoreMissions => DependencyService.Get<IDataStore<Mission>>();
 
         private Purpose _selectedAim;
+        public string text;
+        public string description;
+
         bool showFill = true;
         public Node<abstract_Item> root;
         public Node<abstract_Item> current;
-        public Command LoginCommand { get; }
+        public Command ChangeCommand { get; }
+        public Command AddCommand { get; }
+        public Command AddMissionCommand { get; }
         public AimsViewModel()
         {
             Title = "Aims";
-            LoginCommand = new Command(OnAimSelected);
+            text = "";
+            description = "";
+            ChangeCommand = new Command(OnAimSelected);
+            AddCommand = new Command(OnAddAim);
+            AddMissionCommand = new Command(OnAddMission);
+            current = null;
             fillTree();
+            if (current != null)
+            {
+                if (current.data is Purpose purp) _selectedAim = purp;
+            }
         }
         public async void fillTree()
         {
@@ -97,10 +111,27 @@ namespace Xamarin_test.ViewModels
                 OnAimSelected(value);
             }
         }
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
         private async void OnAimSelected(object obj)
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             await Shell.Current.GoToAsync($"//{nameof(AimEditPage)}?{nameof(AimEditViewModel)}={_selectedAim}");
+        }
+        private async void OnAddAim(object obj)
+        {
+            await Shell.Current.GoToAsync($"//{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={_selectedAim.Children}");
+        }
+        private async void OnAddMission(object obj)
+        {
+            await Shell.Current.GoToAsync($"//{nameof(NewItemPage)}?{nameof(NewItemViewModel.group)}={_selectedAim.Children}");
         }
     }
 }
