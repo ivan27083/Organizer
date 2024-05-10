@@ -20,12 +20,18 @@ namespace Xamarin_test.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
+        public static AppDelegate Current { get; private set; }
+        public EventHandler globalTouchHandler;
+
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Current = this;
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
-            return base.FinishedLaunching(app, options);
+            var res = base.FinishedLaunching(app, options);
+            app.KeyWindow.AddGestureRecognizer(new TouchCoordinatesRecognizer());
+            return res;
         }
     }
 }

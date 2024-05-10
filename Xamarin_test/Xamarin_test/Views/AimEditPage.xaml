@@ -1,12 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin_test.Views.AimEditPage">
+             x:Class="Xamarin_test.Views.AimEditPage"
+             xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
+             Title="Edit Aim">
+
+    <ContentPage.BindingContext>
+        <vm:AimEditViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="8" RowSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                <Label Text="Название цели" FontSize="Medium"/>
+                <Frame>
+                    <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
+                </Frame>
+            </StackLayout>
+
+
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="7*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Описание" FontSize="Medium" />
+                <Frame Grid.Row="1">
+                    <ScrollView>
+                        <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" />
+                    </ScrollView>
+                </Frame>
+            </Grid>
+        </Grid>
+    
     </ContentPage.Content>
 </ContentPage>

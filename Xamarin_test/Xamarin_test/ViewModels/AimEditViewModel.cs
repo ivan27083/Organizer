@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin_test.Models;
 using Xamarin_test.Services;
@@ -14,12 +15,39 @@ namespace Xamarin_test.ViewModels
     public class AimEditViewModel : BaseViewModel
     {
         private Purpose _selectedAim;
+        private int itemId;
+        private string text;
+        private string description;
+        Purpose item;
+        public int Id { get; set; }
         public IDataStore<Purpose> DataStore => DependencyService.Get<IDataStore<Purpose>>();
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
 
         public AimEditViewModel()
         {
-          
+            SaveCommand = new Command(OnSave, ValidateSave);
+            CancelCommand = new Command(OnCancel);
+            this.PropertyChanged +=
+                (_, __) => SaveCommand.ChangeCanExecute();
         }
+        private bool ValidateSave()
+        {
+            return !String.IsNullOrWhiteSpace(text)
+                && !String.IsNullOrWhiteSpace(description);
+        }
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
+
         public Purpose SelectedAim
         {
             get => _selectedAim;
@@ -29,15 +57,26 @@ namespace Xamarin_test.ViewModels
                
             }
         }
+        public int ItemId
+        {
+            get
+            {
+                return itemId;
+            }
+            set
+            {
+                itemId = value;
+                LoadItemId(value);
+            }
+        }
         public async void LoadItemId(int itemId)
         {
             try
             {
                 var item = await DataStore.GetItemAsync(_selectedAim.Id);
-                //Id = item.Id;
-                //Text = item.Text;
-                //Description = item.Description;
-                //Date = item.Date;
+                Id = item.Id;
+                Text = item.Text;
+                Description = item.Description;
             }
             catch (Exception)
             {
@@ -66,6 +105,31 @@ namespace Xamarin_test.ViewModels
             {
                 Debug.WriteLine("Failed to Delete");
             }
+        }
+        private async Task GoBackAsync()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async void OnCancel()
+        {
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={ItemId}");
+        }
+
+        private async void OnSave()
+        {
+            try
+            {
+                item.Text = Text;
+                item.Description = Description;
+                var item1 = await DataStore.UpdateItemAsync(item);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to Update");
+            }
+
+            await Shell.Current.GoToAsync("..");
         }
 
     }

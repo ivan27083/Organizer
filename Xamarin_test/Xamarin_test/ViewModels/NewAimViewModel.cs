@@ -10,11 +10,20 @@ namespace Xamarin_test.ViewModels
 {
     public class NewAimViewModel : BaseViewModel
     {
+        public IDataStore<Purpose> DataStore => DependencyService.Get<IDataStore<Purpose>>();
         private string text;
         private string description;
         private int id;
-        public int group;
-        public IDataStore<Purpose> DataStore => DependencyService.Get<IDataStore<Purpose>>();
+        public int? group { get; set; } = null;
+        
+
+        public NewAimViewModel()
+        {
+            SaveCommand = new Command(OnSave, ValidateSave);
+            CancelCommand = new Command(OnCancel);
+            this.PropertyChanged +=
+                (_, __) => SaveCommand.ChangeCanExecute();
+        }
         private bool ValidateSave()
         {
             return !String.IsNullOrWhiteSpace(text)
@@ -45,21 +54,14 @@ namespace Xamarin_test.ViewModels
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
-        public NewAimViewModel()
-        {
-            SaveCommand = new Command(OnSave, ValidateSave);
-            CancelCommand = new Command(OnCancel);
-            this.PropertyChanged +=
-                (_, __) => SaveCommand.ChangeCanExecute();
-        }
+        
 
         private async void OnSave()
         {
-            Purpose newAim = new Purpose();
+            Purpose newAim = new Purpose()
             {
-                //Id = Id, // id errors mb ???
-                //Text = Text,
-                //Description = Description
+                Text = Text,
+                Description = Description
             };
 
             await DataStore.AddItemAsync(newAim);

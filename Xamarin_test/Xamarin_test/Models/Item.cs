@@ -10,7 +10,7 @@ namespace Xamarin_test.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
-        public bool Completed { get; set; }
+        public bool Completed { get; set; } //ььь
 
         public abstract_Item()
         {
@@ -53,7 +53,7 @@ namespace Xamarin_test.Models
         [NotMapped] public string StringDate { get; set; }
         public Mission()
         {
-            Group = 0;
+            Group = null;
         }
     }
 

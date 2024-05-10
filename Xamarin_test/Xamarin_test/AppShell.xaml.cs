@@ -17,11 +17,13 @@ namespace Xamarin_test
             Routing.RegisterRoute(nameof(NewDailyPage), typeof(NewDailyPage));
             Routing.RegisterRoute(nameof(ItemEditPage), typeof(ItemEditPage));
             Routing.RegisterRoute(nameof(DailyEditPage), typeof(DailyEditPage));
+            Routing.RegisterRoute(nameof(AimEditPage), typeof(AimEditPage));
+            Routing.RegisterRoute(nameof(NewAimPage), typeof(NewAimPage));
         }
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//LoginPage");
-        }
+        //private async void OnMenuItemClicked(object sender, EventArgs e)
+        //{
+        //    await Shell.Current.GoToAsync("//LoginPage");
+        //}
     }
 }

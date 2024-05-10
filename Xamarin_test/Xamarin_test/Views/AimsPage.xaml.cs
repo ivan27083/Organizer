@@ -11,6 +11,7 @@ using Xamarin_test.ViewModels;
 using Xamarin_test.Classes;
 using Xamarin_test.Models;
 using Xamarin.Essentials;
+using Xamarin_test.Services;
 
 namespace Xamarin_test.Views
 {
@@ -18,16 +19,16 @@ namespace Xamarin_test.Views
     public partial class AimsPage : ContentPage
     {
         bool showFill = true;
+        bool no_aims = false;
         AimsViewModel _viewModel;
+        public List<Circle> circles = new List<Circle>();
+        
         public AimsPage()
         {
             InitializeComponent();
             BindingContext = _viewModel = new AimsViewModel();
-        }
-        void OnCanvasViewTapped(object sender, EventArgs args)
-        {
-            showFill ^= true;
-            (sender as SKCanvasView).InvalidateSurface();
+            frame_w = xamarinWidth;
+            frame_h = xamarinHeight / 2;
         }
 
         /*public int Row { get; set; }
@@ -37,41 +38,52 @@ namespace Xamarin_test.Views
         static DisplayInfo mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
         static double xamarinWidth = mainDisplayInfo.Width / mainDisplayInfo.Density;
         static double xamarinHeight = mainDisplayInfo.Height / mainDisplayInfo.Density;
-
-        public double frame_w { get; set; } = xamarinWidth;
-        public double frame_h { get; set; } = 3 * xamarinHeight / 5;
         
 
-        void children_values(int i, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
+        public double frame_w { get; set; } = xamarinWidth;
+        public double frame_h { get; set; } = xamarinHeight / 2;
+        
+
+        void children_values(int i, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
         {
             //child
-            radius1 = (float)(Math.Min(frame_w, frame_h) / (kolvo * 2));
+            radius1 = (float)(Math.Min(info_Width, info_Height) / (kolvo * 2));
             radius2 = radius1;
-            double radius = Math.Min(frame_w, frame_h) / 4;
+            double radius = Math.Min(info_Width, info_Height) / 4;
             double angle = i * Math.PI / 4;
             x = (float)(centerX + radius * Math.Cos(angle));
             y = (float)(centerY - radius * Math.Sin(angle));
         }
 
-        void values(int var, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2,int kolvo)
+        void values(int var, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2, int kolvo)
         {
+            if (var == 0)//current
+            {
+                x = (float)(info_Width / 2);
+                y = (float)(info_Height / 2);
+                radius1 = 80; radius2 = 80;
+            }
+
             if (var == 1)//current
             {
-                x = (float)(frame_w / 2 - info_Width / 2);
-                y = (float)(frame_h / 2 - info_Height / 2);
+                x = (float)(info_Width / 2);
+                y = (float)(info_Height / 2);
                 radius1 = 50; radius2 = 50;
             }
 
             if (var == 2)//parent
             {
-                x = (float)(frame_w / 2 - info_Width / 2);
-                y = (float)(frame_h / 2 - info_Height / 2 + frame_h / 5);
+                x = (float)(info_Width / 2);
+                y = (float)(info_Height / 2 + info_Height / 5);
                 radius1 = 30; radius2 = 30;
             }
         }
+        
+
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
+            
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -103,13 +115,14 @@ namespace Xamarin_test.Views
                 SKPaint paint_line = new SKPaint
                 {
                     Style = SKPaintStyle.Stroke,
-                    Color = stroke,
+                    Color = inside,
                     StrokeWidth = 2
                 };
 
 
                 if (_viewModel.current != null)
                 {
+                    no_aims = false;
                     if (counter == 0) var = 1;
                     if (_viewModel.current.parent != null && counter == 1) var = 2;
 
@@ -119,14 +132,37 @@ namespace Xamarin_test.Views
                         kolvo += 1;
                     }
                 }
-                else break;
+                else //плюсик
+                {
+                    Circle c = new Circle();
+                    no_aims = true;
+                    var = 0;
+                    paint.Color = inside;
+                    values(var, info.Width, info.Height, ref x, ref y, ref radius1, ref radius2, kolvo);
+                    c.Radius = radius1;
+                    c.x = x; c.y = y;
+                    circles.Add(c);
+                    canvas.DrawCircle(x, y, radius1, paint);
+                    line_x_start = x - radius1; line_y_start = y; line_x_end = x + radius1; line_y_end = y;
+                    canvas.DrawLine(line_x_start, line_y_start, line_x_end, line_y_end, paint_line);
+                    line_x_start = x; line_y_start = y-radius1; line_x_end = x; line_y_end = y+radius1;
+                    canvas.DrawLine(line_x_start, line_y_start, line_x_end, line_y_end, paint_line);
+                    break;
+                }
+                    
 
                 if (var == 1 || var == 2)
                 {
                     values(var, info.Width, info.Height, ref x, ref y, ref radius1, ref radius2, kolvo);
-
-                    if (var == 1) { centerX =x ; centerY =y; line_x_start = x;line_y_start = y; }
-                    if(var ==2) { line_x_end = x; line_y_end = y; }
+                    Circle c = new Circle();
+                    if (var == 1) { centerX =x ; centerY =y; line_x_start = x;line_y_start = y; c.Id = _viewModel.current.data.Id; }
+                    if (var ==2) { line_x_end = x; line_y_end = y; c.Id = _viewModel.current.parent.data.Id; }
+                    
+                    c.Radius = radius1;
+                    c.x = x;
+                    c.y = y;
+                    
+                    circles.Add(c);
                     canvas.DrawCircle(x, y, radius1, paint);
                     if (showFill)
                     {
@@ -145,8 +181,14 @@ namespace Xamarin_test.Views
                     int k = 0;
                     while (k!=kolvo)
                     {
-                        children_values(k, ref x, ref y, ref radius1,ref radius2, centerX, centerY,kolvo);
+                        Circle c = new Circle();
+                        c.Id = _viewModel.current.children[k].data.Id;
+                        children_values(k, info.Width, info.Height, ref x, ref y, ref radius1,ref radius2, centerX, centerY,kolvo);
                         line_x_end = x; line_y_end = y;
+                        c.Radius = radius1;
+                        c.x = x;
+                        c.y = y;
+                        circles.Add(c);
                         canvas.DrawCircle(x, y, radius1, paint);
                         if (showFill)
                         {
@@ -161,6 +203,7 @@ namespace Xamarin_test.Views
                 }
                 if (var == -1) break;
             }
+            
         }
     }
 }
