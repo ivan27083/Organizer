@@ -8,6 +8,7 @@ using Android.Views;
 using Xamarin.Essentials;
 using Xamarin_test.Classes;
 using Xamarin.Forms;
+using Xamarin_test.Services;
 
 namespace Xamarin_test.Droid
 {
@@ -18,7 +19,7 @@ namespace Xamarin_test.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            DependencyService.Register<GlobalTouch>();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

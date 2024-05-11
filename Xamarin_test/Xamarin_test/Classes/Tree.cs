@@ -7,10 +7,10 @@ namespace Xamarin_test.Classes
 {
     public class Node<abstract_Item> // объявление обобщенного класса
     {
-        public abstract_Item data { get; private set; }
-        public Node<abstract_Item> parent { get; private set; }
-        public List<Node<abstract_Item>> children { get; private set; }
-        public Circle circle { get; private set; }
+        public abstract_Item data { get; set; }
+        public Node<abstract_Item> parent { get; set; }
+        public List<Node<abstract_Item>> children { get; set; }
+        public Circle circle { get; set; }
         public int? children_group;
         public int? parent_group;
         public Node(abstract_Item data)

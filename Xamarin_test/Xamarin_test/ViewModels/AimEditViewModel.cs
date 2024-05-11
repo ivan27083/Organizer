@@ -108,11 +108,13 @@ namespace Xamarin_test.ViewModels
         }
         private async Task GoBackAsync()
         {
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
 
         private async void OnCancel()
         {
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={ItemId}");
         }
 
@@ -128,7 +130,7 @@ namespace Xamarin_test.ViewModels
             {
                 Debug.WriteLine("Failed to Update");
             }
-
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
 

@@ -13,15 +13,12 @@
     
     <ContentPage.Content>
         <StackLayout>
-            <Frame 
+            <Frame  
                 BorderColor="Transparent"
                 BackgroundColor="White"
                 WidthRequest="{Binding frame_w}"
                 HeightRequest="{Binding frame_h}">
                 <skia:SKCanvasView PaintSurface="OnCanvasViewPaintSurface" Margin="0,10,0,0">
-                    <skia:SKCanvasView.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="gestRec" Tapped="OnCanvasViewTapped"/>
-                    </skia:SKCanvasView.GestureRecognizers>
                 </skia:SKCanvasView>
             </Frame>
             <StackLayout>

@@ -23,9 +23,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+            <StackLayout Orientation="Vertical" Grid.Column="1" Grid.Row="0">
                 <Label Text="Название цели" FontSize="Medium"/>
                 <Frame>
                     <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
@@ -33,7 +34,7 @@
             </StackLayout>
 
 
-            <Grid Grid.Column="1" Grid.Row="2">
+            <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -49,6 +50,8 @@
                     </ScrollView>
                 </Frame>
             </Grid>
+
+            <Button Grid.Row="2" Grid.Column="1" Margin="0,15,0,0" Text="Удалить" Command="{Binding deleteItem}" />
         </Grid>
     
     </ContentPage.Content>

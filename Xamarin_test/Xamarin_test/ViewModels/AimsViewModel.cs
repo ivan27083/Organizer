@@ -22,11 +22,11 @@ namespace Xamarin_test.ViewModels
         public IDataStore<Purpose> DataStoreAims => DependencyService.Get<IDataStore<Purpose>>();
         public IDataStore<Mission> DataStoreMissions => DependencyService.Get<IDataStore<Mission>>();
         private IGlobalTouch service = DependencyService.Get<IGlobalTouch>();
-
+        public static bool locker = false;
         private Purpose _selectedAim;
         public string text;
         public string description;
-
+        public Circle plus;
         bool showFill = true;
         public Node<abstract_Item> root;
         public Node<abstract_Item> current;
@@ -46,78 +46,160 @@ namespace Xamarin_test.ViewModels
             fillTree();
             if (current != null)
             {
-                if (current.data is Purpose purp) _selectedAim = purp;
-                SubscribeCircles(current);
+                if (current.data is Purpose purp)
+                {
+                    _selectedAim = purp;
+                }
+            }
+            CreateCircles();
+            SubscribeCircles(current);
+        }
+        public void CreateCircles()
+        {
+            circles.Clear();
+            double xamarinWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+            double xamarinHeight = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+            if (current != null)
+            {
+                current.circle = new Circle
+                {
+                    x = (float)xamarinWidth / 2,
+                    y = (float)xamarinHeight / 2,
+                    Radius = 80 / (float)DeviceDisplay.MainDisplayInfo.Density,
+                    Type = 0
+                };
+                circles.Add(current.circle);
+                if (current.parent != null)
+                {
+                    current.parent.circle = new Circle
+                    {
+                        x = (float)xamarinWidth / 2,
+                        y = (float)(xamarinHeight / 2 + xamarinHeight / 5),
+                        Radius = 50 / (float)DeviceDisplay.MainDisplayInfo.Density,
+                        Type = 1
+                    };
+                    circles.Add(current.parent.circle);
+                }
+
+                foreach (Node<abstract_Item> child in current.children)
+                {
+                    double radius = Math.Min(xamarinWidth, xamarinHeight) / 4;
+                    double angle = current.children.IndexOf(child) * Math.PI / 4;
+                    child.circle = new Circle
+                    {
+                        x = (float)(current.circle.x + radius * Math.Cos(angle)),
+                        y = (float)(current.circle.y - radius * Math.Sin(angle)),
+                        Radius = (float)(Math.Min(xamarinWidth, xamarinHeight) / (current.children.Count * 2)) / (float)DeviceDisplay.MainDisplayInfo.Density,
+                        Type = 2
+                    };
+                    circles.Add(child.circle);
+                }
+            }
+            else
+            {
+                plus = new Circle
+                {
+                    x = (float)(xamarinWidth / 2),
+                    y = (float)(xamarinHeight / 2),
+                    Radius = 80 / (float) DeviceDisplay.MainDisplayInfo.Density
+                };
             }
         }
-
         public async void SubscribeCircles(Node<abstract_Item> circle)
         {
-            if (circle == null) return;
-            circles.Add(circle.circle);
-            service.Subscribe(async (circle, e) =>
+            if (circle == null)
             {
-                var touchPoint = (e as TouchEventArgs<Point>).EventData;
-                var touchX = touchPoint.X;
-                var touchY = touchPoint.Y;
-
-                var viewPosition = new Point((circle as Node<abstract_Item>).circle.x, (circle as Node<abstract_Item>).circle.y);
-                var navBarHeight = service.GetNavBarHeight();
-                var radius = (circle as Circle).Radius;
-                var viewX = viewPosition.X;
-                var viewY = viewPosition.Y + navBarHeight;
-
-                if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={current.data.Id}");
-                }
-            });
-            if (circle.parent != null)
-            {
-                circles.Add(circle.parent.circle);
-                Node<abstract_Item> parent = circle.parent;
-                service.Subscribe(async (parent, e) =>
+                service.Subscribe((sender, e) =>
                 {
                     var touchPoint = (e as TouchEventArgs<Point>).EventData;
                     var touchX = touchPoint.X;
                     var touchY = touchPoint.Y;
 
-                    var viewPosition = new Point((parent as Node<abstract_Item>).circle.x, (parent as Node<abstract_Item>).circle.y);
                     var navBarHeight = service.GetNavBarHeight();
-                    var radius = (parent as Circle).Radius;
-                    var viewX = viewPosition.X;
-                    var viewY = viewPosition.Y + navBarHeight;
+                    var viewX = plus.x;
+                    var viewY = plus.y;
 
-                    if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+                    if (Math.Abs(touchX - viewX) <= plus.Radius && Math.Abs(touchY - viewY) <= plus.Radius && !locker)
                     {
-                        current = parent as Node<abstract_Item>;
-                        if (current.data is Purpose purp) _selectedAim = purp;
-                        SubscribeCircles(current);
+                        locker = true;
+                        Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={-1}");
                     }
                 });
             }
-            foreach (var child in circle.children)
+            else
             {
-                circles.Add(child.circle);
-                service.Subscribe(async (child, e) =>
+                service.Subscribe((sender, e) =>
                 {
                     var touchPoint = (e as TouchEventArgs<Point>).EventData;
                     var touchX = touchPoint.X;
                     var touchY = touchPoint.Y;
 
-                    var viewPosition = new Point((child as Node<abstract_Item>).circle.x, (child as Node<abstract_Item>).circle.y);
+                    var viewPosition = new Point(current.circle.x, current.circle.y);
                     var navBarHeight = service.GetNavBarHeight();
-                    var radius = (child as Circle).Radius;
+                    var radius = current.circle.Radius;
                     var viewX = viewPosition.X;
-                    var viewY = viewPosition.Y + navBarHeight;
+                    var viewY = viewPosition.Y;
 
-                    if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+                    if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius && !locker)
                     {
-                        current = child as Node<abstract_Item>;
-                        if (current.data is Purpose purp) _selectedAim = purp;
-                        SubscribeCircles(current);
+                        locker = true;
+                        Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={current.data.Id}");
+
                     }
                 });
+                if (circle.parent != null)
+                {
+                    Node<abstract_Item> parent = circle.parent;
+                    service.Subscribe((sender, e) =>
+                    {
+                        var touchPoint = (e as TouchEventArgs<Point>).EventData;
+                        var touchX = touchPoint.X;
+                        var touchY = touchPoint.Y;
+
+                        var viewPosition = new Point(current.parent.circle.x, current.parent.circle.y);
+                        var navBarHeight = service.GetNavBarHeight();
+                        var radius = current.parent.circle.Radius;
+                        var viewX = viewPosition.X;
+                        var viewY = viewPosition.Y;
+
+                        if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+                        {
+                            current = current.parent;
+                            if (current.data is Purpose purp)
+                            {
+                                _selectedAim = purp;
+                                CreateCircles();
+                                SubscribeCircles(current);
+                            }
+                        }
+                    });
+                }
+                foreach (var child in circle.children)
+                {
+                    service.Subscribe((sender, e) =>
+                    {
+                        var touchPoint = (e as TouchEventArgs<Point>).EventData;
+                        var touchX = touchPoint.X;
+                        var touchY = touchPoint.Y;
+
+                        var viewPosition = new Point(child.circle.x, child.circle.y);
+                        var navBarHeight = service.GetNavBarHeight();
+                        var radius = child.circle.Radius;
+                        var viewX = viewPosition.X;
+                        var viewY = viewPosition.Y;
+
+                        if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+                        {
+                            current = child;
+                            if (current.data is Purpose purp)
+                            {
+                                _selectedAim = purp;
+                                CreateCircles();
+                                SubscribeCircles(current);
+                            }
+                        }
+                    });
+                }
             }
         }
         public async void fillTree()
@@ -153,7 +235,7 @@ namespace Xamarin_test.ViewModels
                 }
                 else
                 {
-                    current = current.parent;
+                    current = current.parent;//wtf
                 }
             }
             current = root;
@@ -201,7 +283,7 @@ namespace Xamarin_test.ViewModels
         }
         private async void OnAddAim(object obj)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={_selectedAim.Children}");
+            await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={-1}");
         }
         private async void OnAddMission(object obj)
         {

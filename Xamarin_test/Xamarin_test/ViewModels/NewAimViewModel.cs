@@ -51,7 +51,7 @@ namespace Xamarin_test.ViewModels
 
         private async void OnCancel()
         {
-            // This will pop the current page off the navigation stack
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
         
@@ -66,7 +66,7 @@ namespace Xamarin_test.ViewModels
 
             await DataStore.AddItemAsync(newAim);
 
-            // This will pop the current page off the navigation stack
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
 

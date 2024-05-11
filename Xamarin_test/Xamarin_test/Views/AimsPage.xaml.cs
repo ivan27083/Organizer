@@ -22,11 +22,13 @@ namespace Xamarin_test.Views
         bool no_aims = false;
         AimsViewModel _viewModel;
         public List<Circle> circles = new List<Circle>();
-        
+        private IGlobalTouch service = DependencyService.Get<IGlobalTouch>();
+
         public AimsPage()
         {
             InitializeComponent();
-            BindingContext = _viewModel = new AimsViewModel();
+            BindingContext = new AimsViewModel();
+            _viewModel = BindingContext as AimsViewModel;
             frame_w = xamarinWidth;
             frame_h = xamarinHeight / 2;
         }
@@ -44,7 +46,7 @@ namespace Xamarin_test.Views
         public double frame_h { get; set; } = xamarinHeight / 2;
         
 
-        void children_values(int i, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
+        /*void children_values(int i, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
         {
             //child
             radius1 = (float)(Math.Min(info_Width, info_Height) / (kolvo * 2));
@@ -77,20 +79,63 @@ namespace Xamarin_test.Views
                 y = (float)(info_Height / 2 + info_Height / 5);
                 radius1 = 30; radius2 = 30;
             }
-        }
-        
-
+        }*/
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             
+
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
+            float d = (float)mainDisplayInfo.Density;
+            float x0 = 8,
+                  y0 = 160 + service.GetNavBarHeight()*d + 18 * d;
 
             SKColor stroke = new SKColor(20, 74, 77);
             SKColor inside = new SKColor(52, 198, 205);
-            int counter = 0;
+            
+            SKPaint paint = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = stroke,
+                StrokeWidth = 10
+            };
+
+            SKPaint paint_line = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = inside,
+                StrokeWidth = 4
+            };
+            //float x_centre=0, y_centre=0;
+
+            if (_viewModel.circles.Count > 0)
+            {
+                Circle main = _viewModel.circles.Find(c => c.Type == 0);
+                for (int i = 0; i < _viewModel.circles.Count(); i++)
+                {
+                    canvas.DrawCircle(_viewModel.circles[i].x * d - x0, _viewModel.circles[i].y * d - y0, _viewModel.circles[i].Radius * d, paint);
+                    paint.Style = SKPaintStyle.Fill;
+                    paint.Color = inside;
+                    canvas.DrawCircle(_viewModel.circles[i].x * d - x0, _viewModel.circles[i].y * d - y0, _viewModel.circles[i].Radius * d, paint);
+
+                    if (_viewModel.circles[i].Type != 0)
+                        canvas.DrawLine(main.x * d- x0, main.y * d - y0, _viewModel.circles[i].x * d - x0, _viewModel.circles[i].y * d - y0, paint_line);
+                }
+            }
+            else
+            {
+                float x = _viewModel.plus.x * d - x0,
+                    y = _viewModel.plus.y * d - y0,
+                    r = _viewModel.plus.Radius * d;
+                canvas.DrawCircle(x, y, r, paint);
+                canvas.DrawLine(x - r, y, x + r, y, paint_line);
+                canvas.DrawLine(x, y - r, x, y + r, paint_line);
+            }
+
+
+            /*int counter = 0;
             float line_x_start = 0, line_x_end = 0, line_y_start = 0, line_y_end = 0;
             canvas.Clear();
             while (true)
@@ -99,25 +144,13 @@ namespace Xamarin_test.Views
                 
                 int kolvo = 0;
                 /*float w = info.Width;
-                float h = info.Height;*/
+                float h = info.Height;
 
                 float centerX = 0, centerY = 0;
                 float x = 0, y = 0;
                 float radius1 = 0, radius2 = 0;
 
-                SKPaint paint = new SKPaint
-                {
-                    Style = SKPaintStyle.Stroke,
-                    Color = stroke,
-                    StrokeWidth = 10
-                };
-
-                SKPaint paint_line = new SKPaint
-                {
-                    Style = SKPaintStyle.Stroke,
-                    Color = inside,
-                    StrokeWidth = 2
-                };
+                
 
 
                 if (_viewModel.current != null)
@@ -202,8 +235,8 @@ namespace Xamarin_test.Views
                     break;
                 }
                 if (var == -1) break;
-            }
-            
+            }*/
+
         }
     }
 }

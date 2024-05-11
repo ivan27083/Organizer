@@ -12,15 +12,14 @@ namespace Xamarin_test
 {
     public partial class App : Application
     {
-        public const string DATABASE_NAME = "base.db";
         public App()
         {
             InitializeComponent();
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DATABASE_NAME);
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<MockDataStoreDaily>();
             DependencyService.Register<MockDataStoreDay>();
             DependencyService.Register<MockDataStorePurpose>();
+            
             MainPage = new AppShell();
         }
 
