@@ -15,7 +15,7 @@ namespace Xamarin_test.ViewModels
         private string text;
         private string description;
         private int id;
-        private int? group = null;
+        private int? group = 0;
         
 
         public NewAimViewModel()
@@ -24,7 +24,10 @@ namespace Xamarin_test.ViewModels
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
-            Group = AimsViewModel.current.data.Id;
+            if (AimsViewModel.current != null)
+            {
+                Group = AimsViewModel.current.data.Id;
+            }
         }
         private bool ValidateSave()
         {

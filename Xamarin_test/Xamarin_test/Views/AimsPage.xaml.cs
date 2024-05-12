@@ -23,7 +23,7 @@ namespace Xamarin_test.Views
         AimsViewModel _viewModel;
         public List<Circle> circles = new List<Circle>();
         private IGlobalTouch service = DependencyService.Get<IGlobalTouch>();
-
+       // SKCanvas Canvas;
         public AimsPage()
         {
             InitializeComponent();
@@ -45,6 +45,10 @@ namespace Xamarin_test.Views
         public double frame_w { get; set; } = xamarinWidth;
         public double frame_h { get; set; } = xamarinHeight / 2;
         
+        void refresh()
+        {
+            //CanvasView.InvalidateSurface();
+        }
 
         /*void children_values(int i, float info_Width, float info_Height, ref float x, ref float y, ref float radius1, ref float radius2, float centerX, float centerY, int kolvo)
         {
@@ -83,8 +87,6 @@ namespace Xamarin_test.Views
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-            
-
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -237,6 +239,11 @@ namespace Xamarin_test.Views
                 if (var == -1) break;
             }*/
 
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

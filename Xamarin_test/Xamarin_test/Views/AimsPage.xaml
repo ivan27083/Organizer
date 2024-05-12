@@ -13,23 +13,25 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout>
-            <Frame  
-                BorderColor="Transparent"
-                BackgroundColor="White"
-                WidthRequest="{Binding frame_w}"
-                HeightRequest="{Binding frame_h}">
-                <skia:SKCanvasView PaintSurface="OnCanvasViewPaintSurface" Margin="0,10,0,0">
-                </skia:SKCanvasView>
-            </Frame>
+        <RefreshView x:DataType="vm:AimsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
             <StackLayout>
-                <Label Text ="{Binding Text}"/>
-                <Label Text ="{Binding Description}"/>
+                <Frame  
+                    BorderColor="Transparent"
+                    BackgroundColor="White"
+                    WidthRequest="{Binding frame_w}"
+                    HeightRequest="{Binding frame_h}">
+                    <skia:SKCanvasView x:Name="CanvasView" PaintSurface="OnCanvasViewPaintSurface" Margin="0,10,0,0">
+                    </skia:SKCanvasView>
+                </Frame>
+                <StackLayout Padding="8">
+                    <Label Text ="{Binding Text}" FontSize="16"/>
+                    <Frame>  <Label Text ="{Binding Description}"/>  </Frame>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"  Margin="0,15,0,0" Padding="10">
+                    <Button Text="Добавить подцель" Command="{Binding AddCommand}" HorizontalOptions="FillAndExpand"></Button>
+                    <Button Text="Добавить задачу" Command="{Binding AddMissionCommand}" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal"  Margin="0,15,0,0" Padding="10">
-                <Button Text="Добавить подцель" Command="{Binding AddCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Добавить задачу" Command="{Binding AddMissionCommand}" HorizontalOptions="FillAndExpand"></Button>
-            </StackLayout>
-        </StackLayout>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

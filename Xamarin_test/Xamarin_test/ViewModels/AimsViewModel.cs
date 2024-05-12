@@ -34,11 +34,16 @@ namespace Xamarin_test.ViewModels
         public Command ChangeCommand { get; }
         public Command AddCommand { get; }
         public Command AddMissionCommand { get; }
+        public Command LoadItemsCommand { get; }
         public AimsViewModel()
         {
             Title = "Aims";
             text = "";
             description = "";
+
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            //_ = ExecuteLoadItemsCommand();
+
             ChangeCommand = new Command(OnAimSelected);
             AddCommand = new Command(OnAddAim);
             AddMissionCommand = new Command(OnAddMission);
@@ -122,7 +127,7 @@ namespace Xamarin_test.ViewModels
                     if (Math.Abs(touchX - viewX) <= plus.Radius && Math.Abs(touchY - viewY) <= plus.Radius && !locker)
                     {
                         locker = true;
-                        Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={-1}");
+                        Shell.Current.GoToAsync(nameof(NewAimPage));
                     }
                 });
             }
@@ -177,7 +182,7 @@ namespace Xamarin_test.ViewModels
                         }
                     });
                 }
-                foreach (var child in circle.children)
+                foreach (var child in circle.children.ToList())
                 {
                     service.Subscribe((sender, e) =>
                     {
@@ -233,48 +238,56 @@ namespace Xamarin_test.ViewModels
             void fillPurposes(List<Purpose> purposes)
             {
                 if (purposes.Count == 0) return;
-                var el = purposes.Where(p => p.Group == current.data.Id).ToList();
-                if (el.Any())
+                if (current != null)
                 {
-                    foreach (var item in el)
+                    var el = purposes.Where(p => p.Group == current.data.Id).ToList();
+                    if (el.Any())
                     {
-                        current.AddChild(new Node<abstract_Item>(item));
-                        purposes.Remove(item);
-                        current = current.children.Last();
-                        fillPurposes(purposes);
+                        foreach (var item in el)
+                        {
+                            current.AddChild(new Node<abstract_Item>(item));
+                            purposes.Remove(item);
+                            current = current.children.Last();
+                            fillPurposes(purposes);
+                        }
+                    }
+                    else
+                    {
+                        if (current.parent != null)
+                            current = current.parent;
                     }
                 }
-                else
-                {
-                    if (current.parent != null)
-                        current = current.parent;
-                }
+                
             }
             fillPurposes(purposes);
             current = root;
             void fillMissions(List<Mission> missions)
             {
-                var el = missions.Where(m => m.Group == current.data.Id).ToList();
-                if (el.Any())
+                if (current != null)
                 {
-                    foreach (var item in el.ToList())
+                    var el = missions.Where(m => m.Group == current.data.Id).ToList();
+                    if (el.Any())
                     {
-                        current.AddChild(new Node<abstract_Item>(item));
-                        missions.Remove(item);
-                    }
-                    current = current.parent;
-                    
-                }
-                else
-                {
-                    if (current.children.Count != 0)
-                        foreach (Node<abstract_Item> item in current.children.ToList())
+                        foreach (var item in el.ToList())
                         {
-                            Node<abstract_Item> temp = item;
-                            current = temp;
-                            fillMissions(missions);
+                            current.AddChild(new Node<abstract_Item>(item));
+                            missions.Remove(item);
                         }
-                }
+                        if (current.parent != null)
+                            current = current.parent;
+
+                    }
+                    else
+                    {
+                        if (current.children.Count != 0)
+                            foreach (Node<abstract_Item> item in current.children.ToList())
+                            {
+                                Node<abstract_Item> temp = item;
+                                current = temp;
+                                fillMissions(missions);
+                            }
+                    }
+                }   
             }
             fillMissions(missions);
             current = root;
@@ -320,5 +333,28 @@ namespace Xamarin_test.ViewModels
 
         public double frame_w { get; set; } = xamarinWidth;
         public double frame_h { get; set; } = xamarinHeight / 2;
+
+
+        async Task ExecuteLoadItemsCommand()
+        {
+            IsBusy = true;
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
+        }
     }
 }
