@@ -24,12 +24,12 @@ namespace Xamarin_test.ViewModels
         private IGlobalTouch service = DependencyService.Get<IGlobalTouch>();
         public static bool locker = false;
         private Purpose _selectedAim;
-        public string text;
-        public string description;
+        private string text;
+        private string description;
         public Circle plus;
         bool showFill = true;
         public Node<abstract_Item> root;
-        public Node<abstract_Item> current;
+        public static Node<abstract_Item> current;
         public List<Circle> circles = new List<Circle>();
         public Command ChangeCommand { get; }
         public Command AddCommand { get; }
@@ -88,8 +88,8 @@ namespace Xamarin_test.ViewModels
                     child.circle = new Circle
                     {
                         x = (float)(current.circle.x + radius * Math.Cos(angle)),
-                        y = (float)(current.circle.y - radius * Math.Sin(angle)),
-                        Radius = (float)(Math.Min(xamarinWidth, xamarinHeight) / (current.children.Count * 2)) / (float)DeviceDisplay.MainDisplayInfo.Density,
+                        y = (float)(current.circle.y + radius * Math.Sin(angle)),
+                        Radius = (float)(50 - (current.children.Count * 2)) / (float)DeviceDisplay.MainDisplayInfo.Density,
                         Type = 2
                     };
                     circles.Add(child.circle);
@@ -128,6 +128,8 @@ namespace Xamarin_test.ViewModels
             }
             else
             {
+                Text = current.data.Text;
+                Description = current.data.Description;
                 service.Subscribe((sender, e) =>
                 {
                     var touchPoint = (e as TouchEventArgs<Point>).EventData;
@@ -231,7 +233,7 @@ namespace Xamarin_test.ViewModels
             void fillPurposes(List<Purpose> purposes)
             {
                 if (purposes.Count == 0) return;
-                var el = purposes.Where(p => p.Group == current.data.Id);
+                var el = purposes.Where(p => p.Group == current.data.Id).ToList();
                 if (el.Any())
                 {
                     foreach (var item in el)
@@ -252,10 +254,10 @@ namespace Xamarin_test.ViewModels
             current = root;
             void fillMissions(List<Mission> missions)
             {
-                var el = missions.Where(m => m.Group == current.data.Id);
+                var el = missions.Where(m => m.Group == current.data.Id).ToList();
                 if (el.Any())
                 {
-                    foreach (var item in el)
+                    foreach (var item in el.ToList())
                     {
                         current.AddChild(new Node<abstract_Item>(item));
                         missions.Remove(item);
@@ -266,9 +268,10 @@ namespace Xamarin_test.ViewModels
                 else
                 {
                     if (current.children.Count != 0)
-                        foreach (Node<abstract_Item> item in current.children)
+                        foreach (Node<abstract_Item> item in current.children.ToList())
                         {
-                            current = item;
+                            Node<abstract_Item> temp = item;
+                            current = temp;
                             fillMissions(missions);
                         }
                 }

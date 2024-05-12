@@ -23,8 +23,8 @@
                 </skia:SKCanvasView>
             </Frame>
             <StackLayout>
-                <Label Text ="{Binding text}"/>
-                <Label Text ="{Binding description}"/>
+                <Label Text ="{Binding Text}"/>
+                <Label Text ="{Binding Description}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal"  Margin="0,15,0,0" Padding="10">
                 <Button Text="Добавить подцель" Command="{Binding AddCommand}" HorizontalOptions="FillAndExpand"></Button>

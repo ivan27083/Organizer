@@ -24,6 +24,7 @@ namespace Xamarin_test.ViewModels
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
+            Group = AimsViewModel.current.data.Id;
         }
         private bool ValidateSave()
         {
@@ -47,7 +48,13 @@ namespace Xamarin_test.ViewModels
             set => SetProperty(ref description, value);
         }
 
-        public int? Group
+        /*public int? Group
+        {
+            get => group;
+            set { group = value; }
+        }*/
+
+        public int? Group 
         {
             get => group;
             set => SetProperty(ref group, value);
