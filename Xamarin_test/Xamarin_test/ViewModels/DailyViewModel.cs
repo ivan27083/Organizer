@@ -8,6 +8,7 @@ using Xamarin_test.Views;
 using Xamarin_test.Services;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Xamarin_test.ViewModels
 {
@@ -27,8 +28,17 @@ namespace Xamarin_test.ViewModels
             ItemTapped = new Command<Daily>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }
-        
-        
+
+        public void OnCheckBoxChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+            var daily = (Daily)checkBox.BindingContext;
+            if (daily != null)
+            {
+                daily.Completed = e.Value;
+                DataStore.UpdateItemAsync(daily);
+            }
+        }
 
         async Task ExecuteLoadItemsCommand()
         {
@@ -66,6 +76,10 @@ namespace Xamarin_test.ViewModels
             // This will push the ItemDetailPage onto the navigation stack
 
             await Shell.Current.GoToAsync($"{nameof(DailyDetailPage)}?{nameof(DailyDetailViewModel.ItemId)}={daily.Id}");
+        }
+        public void OnAppearing()
+        {
+            IsBusy = true;
         }
     }
 }

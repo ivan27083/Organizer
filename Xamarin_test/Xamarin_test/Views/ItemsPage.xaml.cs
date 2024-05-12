@@ -21,6 +21,10 @@ namespace Xamarin_test.Views
             InitializeComponent();
             BindingContext = _viewModel = new ItemsViewModel();
         }
+        public void OnCheckBoxChanged(object sender, CheckedChangedEventArgs e)
+        {
+            (BindingContext as ItemsViewModel).OnCheckBoxChanged(sender, e);
+        }
 
         protected override void OnAppearing()
         {

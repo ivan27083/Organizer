@@ -47,7 +47,7 @@
                                                 Style="{DynamicResource ListItemTextStyle}"  
                                                 Grid.Column="0"
                                                 Grid.Row="1"/>
-                                        <CheckBox Grid.Column="1" Grid.RowSpan="2" Color="White"> </CheckBox>
+                                    <CheckBox Grid.Column="1" Grid.RowSpan="2" Color="White" IsChecked="{Binding Completed}" CheckedChanged="OnCheckBoxChanged"></CheckBox>
                                         <Grid.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 NumberOfTapsRequired="1"

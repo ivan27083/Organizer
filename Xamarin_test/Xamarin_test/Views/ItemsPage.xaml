@@ -43,7 +43,7 @@
                                     VerticalOptions="Center"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="14" />
-                            <CheckBox Grid.Column="2" Color="White"></CheckBox>
+                            <CheckBox Grid.Column="2" Color="White" IsChecked="{Binding Completed}" CheckedChanged="OnCheckBoxChanged"></CheckBox>
                             <Grid.GestureRecognizers>
                                     <TapGestureRecognizer
                                         NumberOfTapsRequired="1"

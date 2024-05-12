@@ -10,8 +10,8 @@ using Xamarin_test.Views;
 
 namespace Xamarin_test.ViewModels
 {
-    [QueryProperty(nameof(_selectedAim), nameof(_selectedAim))]
-
+    //[QueryProperty(nameof(_selectedAim), nameof(_selectedAim))]
+    [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class AimEditViewModel : BaseViewModel
     {
         private Purpose _selectedAim;
@@ -73,7 +73,7 @@ namespace Xamarin_test.ViewModels
         {
             try
             {
-                var item = await DataStore.GetItemAsync(_selectedAim.Id);
+                item = await DataStore.GetItemAsync(ItemId);
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;
@@ -115,7 +115,8 @@ namespace Xamarin_test.ViewModels
         private async void OnCancel()
         {
             AimsViewModel.locker = false;
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={ItemId}");
+            await Shell.Current.GoToAsync("..");
+            // await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={ItemId}");
         }
 
         private async void OnSave()

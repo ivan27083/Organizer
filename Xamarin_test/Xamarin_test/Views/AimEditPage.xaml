@@ -4,6 +4,9 @@
              x:Class="Xamarin_test.Views.AimEditPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="Edit Aim">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding CancelCommand}" />
+    </Shell.BackButtonBehavior>     
 
     <ContentPage.BindingContext>
         <vm:AimEditViewModel />

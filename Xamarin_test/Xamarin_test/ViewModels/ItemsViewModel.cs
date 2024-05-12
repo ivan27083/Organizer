@@ -28,7 +28,18 @@ namespace Xamarin_test.ViewModels
             ItemTapped = new Command<Mission>(OnItemSelected);
             AddItemCommand = new Command(OnAddItem);
         }
-        
+
+        public void OnCheckBoxChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+            var item = (Mission)checkBox.BindingContext;
+            if (item!= null)
+            {
+                item.Completed = e.Value;
+                DataStore.UpdateItemAsync(item);
+            }
+        }
+
         async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;

@@ -6,7 +6,8 @@
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              xmlns:local="clr-namespace:Xamarin_test.Classes"
              Title="{Binding Title}">
-    
+       
+
     <ContentPage.BindingContext>
         <vm:AimsViewModel/>
     </ContentPage.BindingContext>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Xamarin_test.Models
@@ -10,7 +11,7 @@ namespace Xamarin_test.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
-        public bool Completed { get; set; } //ььь
+        public bool Completed { get; set; }
 
         public abstract_Item()
         {

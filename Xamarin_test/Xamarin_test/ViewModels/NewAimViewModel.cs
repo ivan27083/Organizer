@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin_test.Models;
@@ -14,7 +15,7 @@ namespace Xamarin_test.ViewModels
         private string text;
         private string description;
         private int id;
-        public int? group { get; set; } = null;
+        private int? group = null;
         
 
         public NewAimViewModel()
@@ -46,6 +47,12 @@ namespace Xamarin_test.ViewModels
             set => SetProperty(ref description, value);
         }
 
+        public int? Group
+        {
+            get => group;
+            set => SetProperty(ref group, value);
+        }
+
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
 
@@ -61,7 +68,8 @@ namespace Xamarin_test.ViewModels
             Purpose newAim = new Purpose()
             {
                 Text = Text,
-                Description = Description
+                Description = Description,
+                Group = Group
             };
 
             await DataStore.AddItemAsync(newAim);
@@ -69,8 +77,5 @@ namespace Xamarin_test.ViewModels
             AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
-
-
-
     }
 }

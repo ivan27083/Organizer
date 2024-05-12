@@ -122,7 +122,7 @@ namespace Xamarin_test.ViewModels
                     if (Math.Abs(touchX - viewX) <= plus.Radius && Math.Abs(touchY - viewY) <= plus.Radius && !locker)
                     {
                         locker = true;
-                        Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={-1}");
+                        Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={-1}");
                     }
                 });
             }
@@ -171,6 +171,7 @@ namespace Xamarin_test.ViewModels
                                 CreateCircles();
                                 SubscribeCircles(current);
                             }
+                            
                         }
                     });
                 }
@@ -190,12 +191,18 @@ namespace Xamarin_test.ViewModels
 
                         if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
                         {
-                            current = child;
-                            if (current.data is Purpose purp)
+                            
+                            if (child.data is Purpose purp)
                             {
+                                current = child;
                                 _selectedAim = purp;
                                 CreateCircles();
                                 SubscribeCircles(current);
+                            }
+                            else if (child.data is Mission miss)
+                            {
+                                locker = true;
+                                Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={child.data.Id}");
                             }
                         }
                     });
@@ -221,41 +228,52 @@ namespace Xamarin_test.ViewModels
                 root = new Node<abstract_Item>(purposes.Find(p => p.Group == 0));
                 current = root;
             }
-            while (purposes.Count != 0)
+            void fillPurposes(List<Purpose> purposes)
             {
-                var el = purposes.Where(p => p.Group == current.children_group);
+                if (purposes.Count == 0) return;
+                var el = purposes.Where(p => p.Group == current.data.Id);
                 if (el.Any())
                 {
                     foreach (var item in el)
                     {
                         current.AddChild(new Node<abstract_Item>(item));
-                        current = current.children.Last();
                         purposes.Remove(item);
+                        current = current.children.Last();
+                        fillPurposes(purposes);
                     }
                 }
                 else
                 {
-                    current = current.parent;//wtf
+                    if (current.parent != null)
+                        current = current.parent;
                 }
             }
+            fillPurposes(purposes);
             current = root;
-            while (missions.Count != 0)
+            void fillMissions(List<Mission> missions)
             {
-                var el = missions.Where(m => m.Group == current.children_group);
+                var el = missions.Where(m => m.Group == current.data.Id);
                 if (el.Any())
                 {
                     foreach (var item in el)
                     {
                         current.AddChild(new Node<abstract_Item>(item));
-                        current = current.children.Last();
                         missions.Remove(item);
                     }
+                    current = current.parent;
+                    
                 }
                 else
                 {
-                    current = current.parent;
+                    if (current.children.Count != 0)
+                        foreach (Node<abstract_Item> item in current.children)
+                        {
+                            current = item;
+                            fillMissions(missions);
+                        }
                 }
             }
+            fillMissions(missions);
             current = root;
         }
         public Purpose SelectedAim
@@ -283,11 +301,15 @@ namespace Xamarin_test.ViewModels
         }
         private async void OnAddAim(object obj)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.group)}={-1}");
+            if (current != null)
+                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={current.data.Id}");
+            else
+                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={-1}");
         }
         private async void OnAddMission(object obj)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewItemPage)}?{nameof(NewItemViewModel.group)}={_selectedAim.Children}");
+            if (current != null)
+                await Shell.Current.GoToAsync($"{nameof(NewItemPage)}?{nameof(NewItemViewModel.group)}={current.data.Id}");
         }
         static DisplayInfo mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
         static double xamarinWidth = mainDisplayInfo.Width / mainDisplayInfo.Density;

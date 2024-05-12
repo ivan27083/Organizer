@@ -20,10 +20,12 @@ namespace Xamarin_test.ViewModels
         public IDataStore<Mission> DataStore => DependencyService.Get<IDataStore<Mission>>();
         public Command deleteItem { get; }
         public Command EditItemCommand { get; }
+        public Command GoBack {  get; }
         public ItemDetailViewModel()
         {
             deleteItem = new Command(DeleteItem);
             EditItemCommand = new Command(OnItemSelected);
+            GoBack = new Command(GoBackAsync);
         }
         public string Text
         {
@@ -70,14 +72,15 @@ namespace Xamarin_test.ViewModels
             }
         }
 
-        private async Task GoBackAsync()  // Переход на один уровень вверх в иерархии страниц (Shell)
+        private async void GoBackAsync(object obj)  // Переход на один уровень вверх в иерархии страниц (Shell)
         {
+            AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }
 
         async void OnItemSelected()
         {
-            Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel.ItemId)}={ItemId}");
+            await Shell.Current.GoToAsync($"{nameof(ItemEditPage)}?{nameof(ItemEditViewModel.ItemId)}={ItemId}");
         }
         public async void DeleteItem(object obj) //  удаление объекта
         {

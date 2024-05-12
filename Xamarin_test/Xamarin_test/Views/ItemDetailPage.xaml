@@ -4,6 +4,9 @@
              x:Class="Xamarin_test.Views.ItemDetailPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="{Binding Title}">
+     <Shell.BackButtonBehavior>
+         <BackButtonBehavior Command="{Binding GoBack}" />
+     </Shell.BackButtonBehavior> 
 
     <ContentPage.BindingContext>
         <vm:ItemDetailViewModel />
