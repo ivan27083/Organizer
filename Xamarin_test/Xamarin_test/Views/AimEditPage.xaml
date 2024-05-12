@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_test.Views.AimEditPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
-             Title="Edit Aim">
+             Title="Edit Aim"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding CancelCommand}" />
     </Shell.BackButtonBehavior>     
@@ -34,7 +35,7 @@
                 <Frame>
                     <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
                 </Frame>
-            </StackLayout>
+        </StackLayout>
 
 
             <Grid Grid.Column="1" Grid.Row="1">

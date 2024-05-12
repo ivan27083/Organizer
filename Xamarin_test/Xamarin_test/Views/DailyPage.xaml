@@ -4,7 +4,8 @@
              x:Class="Xamarin_test.Views.DailyPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              xmlns:model="clr-namespace:Xamarin_test.Models" 
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
     
     <ContentPage.BindingContext>
         <vm:DailyViewModel />
@@ -27,7 +28,7 @@
             </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                            <Frame BackgroundColor="#9931ADB3" Padding="10" x:DataType="model:Daily">
+                            <Frame Padding="10" x:DataType="model:Daily">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="8*" />

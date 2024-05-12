@@ -19,7 +19,6 @@ namespace Xamarin_test
             DependencyService.Register<MockDataStoreDaily>();
             DependencyService.Register<MockDataStoreDay>();
             DependencyService.Register<MockDataStorePurpose>();
-            
             MainPage = new AppShell();
         }
 
