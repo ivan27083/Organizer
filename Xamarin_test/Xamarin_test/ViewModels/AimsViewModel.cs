@@ -31,6 +31,7 @@ namespace Xamarin_test.ViewModels
         public Node<abstract_Item> root;
         public static Node<abstract_Item> current;
         public List<Circle> circles = new List<Circle>();
+        public SKCanvasView CanvasViewModel { get; set; }
         public Command ChangeCommand { get; }
         public Command AddCommand { get; }
         public Command AddMissionCommand { get; }
@@ -40,9 +41,10 @@ namespace Xamarin_test.ViewModels
             Title = "Aims";
             text = "";
             description = "";
+            CanvasViewModel = new SKCanvasView();
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            //_ = ExecuteLoadItemsCommand();
+            _ = ExecuteLoadItemsCommand();
 
             ChangeCommand = new Command(OnAimSelected);
             AddCommand = new Command(OnAddAim);
@@ -292,6 +294,57 @@ namespace Xamarin_test.ViewModels
             fillMissions(missions);
             current = root;
         }
+        public void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
+        {
+            SKImageInfo info = args.Info;
+            SKSurface surface = args.Surface;
+            SKCanvas canvas = surface.Canvas;
+            float d = (float)mainDisplayInfo.Density;
+            float x0 = 8,
+                  y0 = 160 + service.GetNavBarHeight() * d + 18 * d;
+
+            SKColor stroke = new SKColor(20, 74, 77);
+            SKColor inside = new SKColor(52, 198, 205);
+
+            SKPaint paint = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = stroke,
+                StrokeWidth = 10
+            };
+
+            SKPaint paint_line = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = inside,
+                StrokeWidth = 4
+            };
+            //float x_centre=0, y_centre=0;
+
+            if (circles.Count > 0)
+            {
+                Circle main = circles.Find(c => c.Type == 0);
+                for (int i = 0; i < circles.Count(); i++)
+                {
+                    canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
+                    paint.Style = SKPaintStyle.Fill;
+                    paint.Color = inside;
+                    canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
+
+                    if (circles[i].Type != 0)
+                        canvas.DrawLine(main.x * d - x0, main.y * d - y0,circles[i].x * d - x0, circles[i].y * d - y0, paint_line);
+                }
+            }
+            else
+            {
+                float x = plus.x * d - x0,
+                    y = plus.y * d - y0,
+                    r = plus.Radius * d;
+                canvas.DrawCircle(x, y, r, paint);
+                canvas.DrawLine(x - r, y, x + r, y, paint_line);
+                canvas.DrawLine(x, y - r, x, y + r, paint_line);
+            }
+        }
         public Purpose SelectedAim
         {
             get => _selectedAim;
@@ -341,6 +394,7 @@ namespace Xamarin_test.ViewModels
 
             try
             {
+                //CanvasViewModel.InvalidateSurface();
             }
             catch (Exception ex)
             {
