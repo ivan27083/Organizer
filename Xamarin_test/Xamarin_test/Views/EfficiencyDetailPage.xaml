@@ -4,7 +4,8 @@
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="{Binding Title}"
-             x:Class="Xamarin_test.Views.EfficiencyDetailPage">
+             x:Class="Xamarin_test.Views.EfficiencyDetailPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
 
     <ContentPage.BindingContext>
         <vm:EfficiencyDetailViewModel />

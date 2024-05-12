@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin_test.Views.ItemEditPage"
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
-             Title="Edit Item">
+             Title="Edit Item"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
 
     <ContentPage.BindingContext>
         <vm:ItemEditViewModel />

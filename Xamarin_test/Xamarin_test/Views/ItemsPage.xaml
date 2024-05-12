@@ -5,7 +5,8 @@
              Title="{Binding Title}"
              xmlns:local="clr-namespace:Xamarin_test.ViewModels"  
              xmlns:model="clr-namespace:Xamarin_test.Models"  
-             x:Name="BrowseItemsPage">
+             x:Name="BrowseItemsPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
@@ -24,7 +25,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#9931ADB3" Padding="10" x:DataType="model:Mission">
+                    <Frame Padding="10" x:DataType="model:Mission">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5*" />
@@ -32,7 +33,6 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                                 <Label Text="{Binding Text}"
-                                    Style="{DynamicResource ListItemTextStyle}" 
                                     FontSize="19" 
                                     VerticalOptions="Center"
                                     Grid.Column="0"/>

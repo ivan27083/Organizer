@@ -7,26 +7,22 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#2196aa</Color>
-            <Style TargetType="Button">
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>
+            
+            <!-- Light colors -->
+            <Color x:Key="LightBackgoundColor">#FBF8F8</Color>
+            <Color x:Key="LightPrimaryColor">#34C6CD</Color>
+            <Color x:Key="LightOnPrimaryColor">#144A4D</Color>
+            <Color x:Key="LightPrimaryContainerColor">#83CED1</Color>
+            <Color x:Key="LightSecondaryContainerColor">#31ADB3</Color>
+            <Color x:Key="LightItemColor">#FFFFFF</Color>
+
+            <!-- Dark colors -->
+            <Color x:Key="DarkBackgoundColor">#2F273C</Color>
+            <Color x:Key="DarkPrimaryColor">#8E78B2</Color>
+            <Color x:Key="DarkOnPrimaryColor">#FFFFFF</Color>
+            <Color x:Key="DarkPrimaryContainerColor">#8E78B2</Color>
+            <Color x:Key="DarkSecondaryContainerColor">#55476b</Color>
+            <Color x:Key="DarkItemColor">#2F273C</Color>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

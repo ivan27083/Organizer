@@ -5,11 +5,12 @@
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              Title="New Aim"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="true">
-     <Shell.BackButtonBehavior>
-         <BackButtonBehavior Command="{Binding CancelCommand}" />
-     </Shell.BackButtonBehavior> 
-
+             ios:Page.UseSafeArea="true"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding CancelCommand}" />
+    </Shell.BackButtonBehavior>
+    
     <ContentPage.BindingContext>
         <vm:NewAimViewModel />
     </ContentPage.BindingContext>
