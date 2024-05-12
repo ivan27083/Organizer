@@ -21,9 +21,9 @@ namespace Xamarin_test
             Routing.RegisterRoute(nameof(NewAimPage), typeof(NewAimPage));
         }
 
-        //private async void OnMenuItemClicked(object sender, EventArgs e)
-        //{
-        //    await Shell.Current.GoToAsync("//LoginPage");
-        //}
+        private async void OnMenuItemClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
     }
 }

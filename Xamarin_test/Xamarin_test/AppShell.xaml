@@ -14,44 +14,70 @@
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.ForegroundColor" Value="White" />
-                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource LightItemColor}, Dark={StaticResource DarkItemColor}}" />
+                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource LightItemColor}, Dark={StaticResource DarkItemColor}}" />
                 <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource LightPrimaryContainerColor}, Dark={StaticResource DarkPrimaryContainerColor}}"/>
                 <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"/>
             </Style>
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
 
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="#144A4D"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
             </Style>
 
             <Style TargetType="Editor">
-                <Setter Property="TextColor" Value="#144A4D"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightPrimaryContainerColor}, Dark={StaticResource DarkPrimaryContainerColor}}"/>
             </Style>
 
             <Style TargetType="Entry">
-                <Setter Property="TextColor" Value="#144A4D"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
             </Style>
 
             <Style TargetType="DatePicker">
-                <Setter Property="TextColor" Value="#144A4D"></Setter>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
             </Style>
 
             <Style TargetType="skia:SKCanvasView">
                 <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
             </Style>
             <Style TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="#BFB4E4E7"></Setter>
-                <Setter Property="BorderColor" Value="#34C6CD"></Setter>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightPrimaryContainerColor}, Dark={StaticResource DarkPrimaryContainerColor}}"></Setter>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
                 <Setter Property="CornerRadius" Value="5"></Setter>
                 <Setter Property="Padding" Value="8"></Setter>
             </Style>
+
+            <Style TargetType="CollectionView">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}"></Setter>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightPrimaryContainerColor}, Dark={StaticResource DarkPrimaryContainerColor}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightSecondaryContainerColor}, Dark={StaticResource DarkSecondaryContainerColor}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        
+
             <!--
             Default Styles for all Flyout Items
             https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
@@ -66,18 +92,19 @@
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor" Value="{x:OnPlatform UWP=Transparent, iOS=White}" />
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+
 
             <!--
             Custom Style you can apply to any Flyout Item
@@ -88,7 +115,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{AppThemeBinding Light={StaticResource LightOnPrimaryColor}, Dark={StaticResource DarkOnPrimaryColor}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

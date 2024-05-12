@@ -5,7 +5,8 @@
              xmlns:vm="clr-namespace:Xamarin_test.ViewModels"
              xmlns:model="clr-namespace:Xamarin_test.Models" 
              Title="{Binding Title}"
-             x:Class="Xamarin_test.Views.EfficiencyPage">
+             x:Class="Xamarin_test.Views.EfficiencyPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackgoundColor}, Dark={StaticResource DarkBackgoundColor}}">
 
 
     <ContentPage.BindingContext>
@@ -34,8 +35,6 @@
 
                 <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="2" />
                 <Frame Grid.Column="0" Grid.Row="0"
-                   BackgroundColor="#BFB4E4E7"
-                   BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
                     <StackLayout>
@@ -45,8 +44,6 @@
                 </Frame>
 
                 <Frame Grid.Column="1" Grid.Row="0"
-                   BackgroundColor="#BFB4E4E7"
-                   BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
                     <StackLayout>
@@ -64,8 +61,6 @@
 
 
                 <Frame Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
-                   BackgroundColor="#BFB4E4E7"
-                   BorderColor="#34C6CD"
                    CornerRadius="5"
                    Padding="8">
                     <StackLayout>
