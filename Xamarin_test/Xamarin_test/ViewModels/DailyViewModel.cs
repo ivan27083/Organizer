@@ -9,6 +9,8 @@ using Xamarin_test.Services;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Xamarin_test.ViewModels
 {
@@ -20,7 +22,7 @@ namespace Xamarin_test.ViewModels
         public Command LoadItemsCommand{ get; }
         public Command AddItemCommand { get; }
         public Command<Daily> ItemTapped { get; }
-        public Day day { get; }
+        public static Day day { get; } = new Day();
         public DailyViewModel()
         {
             Title = "Dailies";
@@ -48,12 +50,21 @@ namespace Xamarin_test.ViewModels
 
             try
             {
-               Dailies.Clear();
+                Dailies.Clear();
                 var dailys = await DataStore.GetItemsAsync(true);
+                var days = await DayDataStore.GetItemsAsync(true);
                 foreach (var daily in dailys)
                 {
                     Dailies.Add(daily);
+                    day.dailies.Add(daily);
                 }
+                List<Day> dayss = new List<Day>();
+                foreach (var day in days)
+                {
+                    dayss.Add(day);
+                }
+                if (!dayss.Any(p => p.day.Date == DateTime.Now.Date))
+                    await DayDataStore.AddItemAsync(day);
             }
             catch (Exception ex)
             {

@@ -201,8 +201,8 @@ namespace Xamarin_test.Services
                 items = db.days.ToList();
                 foreach(Day day in items)
                 {
-                    var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
-                    foreach (var item in items)
+                    var days = db.dailies.Where(u => u.Day == day.dayOfTheWeek);
+                    foreach (var item in days)
                     {
                         day.dailies.Add(item);
                     }
@@ -272,7 +272,7 @@ namespace Xamarin_test.Services
                 List<Day> _items = db.days.ToList();
                 foreach (Day day in _items)
                 {
-                    var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                    var items = db.dailies.Where(u => u.Day == day.dayOfTheWeek);
                     foreach (var item in items)
                     {
                         day.dailies.Add(item);

@@ -41,7 +41,7 @@ namespace Xamarin_test.ViewModels
             try
             {
                 Days.Clear();
-                 var days = await DataStore.GetItemsAsync(true);
+                var days = await DataStore.GetItemsAsync(true);
                 foreach (var d in days)
                 {
                     Days.Add(d);
@@ -60,7 +60,7 @@ namespace Xamarin_test.ViewModels
 
         private async void OnEfficiency2()
         {
-           await Shell.Current.GoToAsync(nameof(EfficiencyDetailPage));
+            await Shell.Current.GoToAsync($"{nameof(EfficiencyDetailPage)}?{nameof(EfficiencyDetailViewModel.ItemId)}={0}");
         }
 
         /*async void OnBarSelected(ChartEntry bar)
@@ -149,8 +149,8 @@ namespace Xamarin_test.ViewModels
             if (Days.Count < 4) BarChart.LabelOrientation = Orientation.Horizontal;
         }
 
-        public string Text1_notdone { get; set; } = "Количество невыполненных задач: " + "10";
-        public string Text2_done { get; set; } = "Количество выполненных задач: " + "40";
+        public string Text1_notdone { get; set; } = "Количество невыполненных задач: " + "0";
+        public string Text2_done { get; set; } = "Количество выполненных задач: " + "0";
         public string Text3_aims { get; set; } = "Ближайшие задачи: ";
     }
 }

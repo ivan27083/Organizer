@@ -19,6 +19,7 @@ namespace Xamarin_test
             Routing.RegisterRoute(nameof(DailyEditPage), typeof(DailyEditPage));
             Routing.RegisterRoute(nameof(AimEditPage), typeof(AimEditPage));
             Routing.RegisterRoute(nameof(NewAimPage), typeof(NewAimPage));
+            Routing.RegisterRoute(nameof(EfficiencyDetailPage), typeof(EfficiencyDetailPage));
         }
     }
 }

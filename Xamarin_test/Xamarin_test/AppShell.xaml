@@ -142,9 +142,9 @@
             <ShellContent Route="EfficiencyPage" ContentTemplate="{DataTemplate local:EfficiencyPage}" />
         </Tab>
 
-        <Tab Title="Efficiency2" Icon="xamarin_logo.png">
+        <!--<Tab Title="Efficiency2" Icon="xamarin_logo.png">
              <ShellContent Route="EfficiencyDetailPage" ContentTemplate="{DataTemplate local:EfficiencyDetailPage}" />
-        </Tab>
+        </Tab>-->
     </TabBar>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
