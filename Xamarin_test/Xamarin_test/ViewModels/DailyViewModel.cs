@@ -15,10 +15,12 @@ namespace Xamarin_test.ViewModels
     public class DailyViewModel : BaseViewModel
     {
         public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
+        public MockDataStoreDay DayDataStore => DependencyService.Get<MockDataStoreDay>();
         public ObservableCollection<Daily> Dailies { get; }
         public Command LoadItemsCommand{ get; }
         public Command AddItemCommand { get; }
         public Command<Daily> ItemTapped { get; }
+        public Day day { get; }
         public DailyViewModel()
         {
             Title = "Dailies";
