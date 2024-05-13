@@ -19,16 +19,14 @@ namespace Xamarin_test.ViewModels
 {
     public class AimsViewModel : BaseViewModel
     {
-        public IDataStore<Purpose> DataStoreAims => DependencyService.Get<IDataStore<Purpose>>();
-        public IDataStore<Mission> DataStoreMissions => DependencyService.Get<IDataStore<Mission>>();
+        
         private IGlobalTouch service = DependencyService.Get<IGlobalTouch>();
         public static bool locker = false;
         private Purpose _selectedAim;
         private string text;
         private string description;
-        public Circle plus;
+        public static Circle plus;
         bool showFill = true;
-        public Node<abstract_Item> root;
         public static Node<abstract_Item> current;
         public List<Circle> circles = new List<Circle>();
         public SKCanvasView CanvasViewModel { get; set; }
@@ -49,8 +47,7 @@ namespace Xamarin_test.ViewModels
             ChangeCommand = new Command(OnAimSelected);
             AddCommand = new Command(OnAddAim);
             AddMissionCommand = new Command(OnAddMission);
-            current = null;
-            fillTree();
+            current = AimsPage.current;
             if (current != null)
             {
                 if (current.data is Purpose purp)
@@ -58,293 +55,218 @@ namespace Xamarin_test.ViewModels
                     _selectedAim = purp;
                 }
             }
-            CreateCircles();
-            SubscribeCircles(current);
+            //CreateCircles();
+            //SubscribeCircles(current);
         }
-        public void CreateCircles()
-        {
-            circles.Clear();
-            double xamarinWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
-            double xamarinHeight = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
-            if (current != null)
-            {
-                current.circle = new Circle
-                {
-                    x = (float)xamarinWidth / 2,
-                    y = (float)xamarinHeight / 2,
-                    Radius = 80 / (float)DeviceDisplay.MainDisplayInfo.Density,
-                    Type = 0
-                };
-                circles.Add(current.circle);
-                if (current.parent != null)
-                {
-                    current.parent.circle = new Circle
-                    {
-                        x = (float)xamarinWidth / 2,
-                        y = (float)(xamarinHeight / 2 + xamarinHeight / 5),
-                        Radius = 50 / (float)DeviceDisplay.MainDisplayInfo.Density,
-                        Type = 1
-                    };
-                    circles.Add(current.parent.circle);
-                }
+        //public void CreateCircles()
+        //{
+        //    circles.Clear();
+        //    double xamarinWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
+        //    double xamarinHeight = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+        //    if (current != null)
+        //    {
+        //        current.circle = new Circle
+        //        {
+        //            x = (float)xamarinWidth / 2,
+        //            y = (float)xamarinHeight / 2,
+        //            Radius = 80 / (float)DeviceDisplay.MainDisplayInfo.Density,
+        //            Type = 0
+        //        };
+        //        circles.Add(current.circle);
+        //        if (current.parent != null)
+        //        {
+        //            current.parent.circle = new Circle
+        //            {
+        //                x = (float)xamarinWidth / 2,
+        //                y = (float)(xamarinHeight / 2 + xamarinHeight / 5),
+        //                Radius = 50 / (float)DeviceDisplay.MainDisplayInfo.Density,
+        //                Type = 1
+        //            };
+        //            circles.Add(current.parent.circle);
+        //        }
 
-                foreach (Node<abstract_Item> child in current.children)
-                {
-                    double radius = Math.Min(xamarinWidth, xamarinHeight) / 4;
-                    double angle = current.children.IndexOf(child) * Math.PI / 4;
-                    child.circle = new Circle
-                    {
-                        x = (float)(current.circle.x + radius * Math.Cos(angle)),
-                        y = (float)(current.circle.y + radius * Math.Sin(angle)),
-                        Radius = (float)(50 - (current.children.Count * 2)) / (float)DeviceDisplay.MainDisplayInfo.Density,
-                        Type = 2
-                    };
-                    circles.Add(child.circle);
-                }
-            }
-            else
-            {
-                plus = new Circle
-                {
-                    x = (float)(xamarinWidth / 2),
-                    y = (float)(xamarinHeight / 2),
-                    Radius = 80 / (float) DeviceDisplay.MainDisplayInfo.Density
-                };
-            }
-        }
-        public async void SubscribeCircles(Node<abstract_Item> circle)
-        {
-            if (circle == null)
-            {
-                service.Subscribe((sender, e) =>
-                {
-                    var touchPoint = (e as TouchEventArgs<Point>).EventData;
-                    var touchX = touchPoint.X;
-                    var touchY = touchPoint.Y;
+        //        foreach (Node<abstract_Item> child in current.children)
+        //        {
+        //            double radius = Math.Min(xamarinWidth, xamarinHeight) / 4;
+        //            double angle = current.children.IndexOf(child) * Math.PI / 4;
+        //            child.circle = new Circle
+        //            {
+        //                x = (float)(current.circle.x + radius * Math.Cos(angle)),
+        //                y = (float)(current.circle.y + radius * Math.Sin(angle)),
+        //                Radius = (float)(50 - (current.children.Count * 2)) / (float)DeviceDisplay.MainDisplayInfo.Density,
+        //                Type = 2
+        //            };
+        //            circles.Add(child.circle);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        plus = new Circle
+        //        {
+        //            x = (float)(xamarinWidth / 2),
+        //            y = (float)(xamarinHeight / 2),
+        //            Radius = 80 / (float) DeviceDisplay.MainDisplayInfo.Density
+        //        };
+        //    }
+        //}
+        //public async void SubscribeCircles(Node<abstract_Item> circle)
+        //{
+        //    if (circle == null)
+        //    {
+        //        service.Subscribe((sender, e) =>
+        //        {
+        //            var touchPoint = (e as TouchEventArgs<Point>).EventData;
+        //            var touchX = touchPoint.X;
+        //            var touchY = touchPoint.Y;
 
-                    var navBarHeight = service.GetNavBarHeight();
-                    var viewX = plus.x;
-                    var viewY = plus.y;
+        //            var navBarHeight = service.GetNavBarHeight();
+        //            var viewX = plus.x;
+        //            var viewY = plus.y;
 
-                    if (Math.Abs(touchX - viewX) <= plus.Radius && Math.Abs(touchY - viewY) <= plus.Radius && !locker)
-                    {
-                        locker = true;
-                        Shell.Current.GoToAsync(nameof(NewAimPage));
-                    }
-                });
-            }
-            else
-            {
-                Text = current.data.Text;
-                Description = current.data.Description;
-                service.Subscribe((sender, e) =>
-                {
-                    var touchPoint = (e as TouchEventArgs<Point>).EventData;
-                    var touchX = touchPoint.X;
-                    var touchY = touchPoint.Y;
+        //            if (Math.Abs(touchX - viewX) <= plus.Radius && Math.Abs(touchY - viewY) <= plus.Radius && !locker)
+        //            {
+        //                locker = true;
+        //                Shell.Current.GoToAsync(nameof(NewAimPage));
+        //            }
+        //        });
+        //    }
+        //    else
+        //    {
+        //        Text = current.data.Text;
+        //        Description = current.data.Description;
+        //        service.Subscribe((sender, e) =>
+        //        {
+        //            var touchPoint = (e as TouchEventArgs<Point>).EventData;
+        //            var touchX = touchPoint.X;
+        //            var touchY = touchPoint.Y;
 
-                    var viewPosition = new Point(current.circle.x, current.circle.y);
-                    var navBarHeight = service.GetNavBarHeight();
-                    var radius = current.circle.Radius;
-                    var viewX = viewPosition.X;
-                    var viewY = viewPosition.Y;
+        //            var viewPosition = new Point(current.circle.x, current.circle.y);
+        //            var navBarHeight = service.GetNavBarHeight();
+        //            var radius = current.circle.Radius;
+        //            var viewX = viewPosition.X;
+        //            var viewY = viewPosition.Y;
 
-                    if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius && !locker)
-                    {
-                        locker = true;
-                        Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={current.data.Id}");
+        //            if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius && !locker)
+        //            {
+        //                locker = true;
+        //                Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={current.data.Id}");
 
-                    }
-                });
-                if (circle.parent != null)
-                {
-                    Node<abstract_Item> parent = circle.parent;
-                    service.Subscribe((sender, e) =>
-                    {
-                        var touchPoint = (e as TouchEventArgs<Point>).EventData;
-                        var touchX = touchPoint.X;
-                        var touchY = touchPoint.Y;
+        //            }
+        //        });
+        //        if (circle.parent != null)
+        //        {
+        //            Node<abstract_Item> parent = circle.parent;
+        //            service.Subscribe((sender, e) =>
+        //            {
+        //                var touchPoint = (e as TouchEventArgs<Point>).EventData;
+        //                var touchX = touchPoint.X;
+        //                var touchY = touchPoint.Y;
 
-                        var viewPosition = new Point(current.parent.circle.x, current.parent.circle.y);
-                        var navBarHeight = service.GetNavBarHeight();
-                        var radius = current.parent.circle.Radius;
-                        var viewX = viewPosition.X;
-                        var viewY = viewPosition.Y;
+        //                var viewPosition = new Point(current.parent.circle.x, current.parent.circle.y);
+        //                var navBarHeight = service.GetNavBarHeight();
+        //                var radius = current.parent.circle.Radius;
+        //                var viewX = viewPosition.X;
+        //                var viewY = viewPosition.Y;
 
-                        if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
-                        {
-                            current = current.parent;
-                            if (current.data is Purpose purp)
-                            {
-                                _selectedAim = purp;
-                                CreateCircles();
-                                SubscribeCircles(current);
-                            }
+        //                if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+        //                {
+        //                    current = current.parent;
+        //                    if (current.data is Purpose purp)
+        //                    {
+        //                        _selectedAim = purp;
+        //                        CreateCircles();
+        //                        SubscribeCircles(current);
+        //                    }
                             
-                        }
-                    });
-                }
-                foreach (var child in circle.children.ToList())
-                {
-                    service.Subscribe((sender, e) =>
-                    {
-                        var touchPoint = (e as TouchEventArgs<Point>).EventData;
-                        var touchX = touchPoint.X;
-                        var touchY = touchPoint.Y;
+        //                }
+        //            });
+        //        }
+        //        foreach (var child in circle.children.ToList())
+        //        {
+        //            service.Subscribe((sender, e) =>
+        //            {
+        //                var touchPoint = (e as TouchEventArgs<Point>).EventData;
+        //                var touchX = touchPoint.X;
+        //                var touchY = touchPoint.Y;
 
-                        var viewPosition = new Point(child.circle.x, child.circle.y);
-                        var navBarHeight = service.GetNavBarHeight();
-                        var radius = child.circle.Radius;
-                        var viewX = viewPosition.X;
-                        var viewY = viewPosition.Y;
+        //                var viewPosition = new Point(child.circle.x, child.circle.y);
+        //                var navBarHeight = service.GetNavBarHeight();
+        //                var radius = child.circle.Radius;
+        //                var viewX = viewPosition.X;
+        //                var viewY = viewPosition.Y;
 
-                        if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
-                        {
+        //                if (Math.Abs(touchX - viewX) <= radius && Math.Abs(touchY - viewY) <= radius)
+        //                {
                             
-                            if (child.data is Purpose purp)
-                            {
-                                current = child;
-                                _selectedAim = purp;
-                                CreateCircles();
-                                SubscribeCircles(current);
-                            }
-                            else if (child.data is Mission miss)
-                            {
-                                locker = true;
-                                Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={child.data.Id}");
-                            }
-                        }
-                    });
-                }
-            }
-        }
-        public async void fillTree()
-        {
-            List<Purpose> purposes = new List<Purpose>();
-            var aims = await DataStoreAims.GetItemsAsync(true);
-            foreach (var aim in aims)
-            {
-                purposes.Add(aim);
-            }
-            List<Mission> missions = new List<Mission>();
-            var items = await DataStoreMissions.GetItemsAsync(true);
-            foreach (var item in items)
-            {
-                if (item.Group != null) missions.Add(item);
-            }
-            if (purposes.Count != 0)
-            {
-                root = new Node<abstract_Item>(purposes.Find(p => p.Group == 0));
-                current = root;
-            }
-            void fillPurposes(List<Purpose> purposes)
-            {
-                if (purposes.Count == 0) return;
-                if (current != null)
-                {
-                    var el = purposes.Where(p => p.Group == current.data.Id).ToList();
-                    if (el.Any())
-                    {
-                        foreach (var item in el)
-                        {
-                            current.AddChild(new Node<abstract_Item>(item));
-                            purposes.Remove(item);
-                            current = current.children.Last();
-                            fillPurposes(purposes);
-                        }
-                    }
-                    else
-                    {
-                        if (current.parent != null)
-                            current = current.parent;
-                    }
-                }
-                
-            }
-            fillPurposes(purposes);
-            current = root;
-            void fillMissions(List<Mission> missions)
-            {
-                if (current != null)
-                {
-                    var el = missions.Where(m => m.Group == current.data.Id).ToList();
-                    if (el.Any())
-                    {
-                        foreach (var item in el.ToList())
-                        {
-                            current.AddChild(new Node<abstract_Item>(item));
-                            missions.Remove(item);
-                        }
-                        if (current.parent != null)
-                            current = current.parent;
+        //                    if (child.data is Purpose purp)
+        //                    {
+        //                        current = child;
+        //                        _selectedAim = purp;
+        //                        CreateCircles();
+        //                        SubscribeCircles(current);
+        //                    }
+        //                    else if (child.data is Mission miss)
+        //                    {
+        //                        locker = true;
+        //                        Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={child.data.Id}");
+        //                    }
+        //                }
+        //            });
+        //        }
+        //    }
+        //}
+        
+        //public void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
+        //{
+        //    SKImageInfo info = args.Info;
+        //    SKSurface surface = args.Surface;
+        //    SKCanvas canvas = surface.Canvas;
+        //    float d = (float)mainDisplayInfo.Density;
+        //    float x0 = 8,
+        //          y0 = 160 + service.GetNavBarHeight() * d + 18 * d;
 
-                    }
-                    else
-                    {
-                        if (current.children.Count != 0)
-                            foreach (Node<abstract_Item> item in current.children.ToList())
-                            {
-                                Node<abstract_Item> temp = item;
-                                current = temp;
-                                fillMissions(missions);
-                            }
-                    }
-                }   
-            }
-            fillMissions(missions);
-            current = root;
-        }
-        public void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
-        {
-            SKImageInfo info = args.Info;
-            SKSurface surface = args.Surface;
-            SKCanvas canvas = surface.Canvas;
-            float d = (float)mainDisplayInfo.Density;
-            float x0 = 8,
-                  y0 = 160 + service.GetNavBarHeight() * d + 18 * d;
+        //    SKColor stroke = new SKColor(20, 74, 77);
+        //    SKColor inside = new SKColor(52, 198, 205);
 
-            SKColor stroke = new SKColor(20, 74, 77);
-            SKColor inside = new SKColor(52, 198, 205);
+        //    SKPaint paint = new SKPaint
+        //    {
+        //        Style = SKPaintStyle.Stroke,
+        //        Color = stroke,
+        //        StrokeWidth = 10
+        //    };
 
-            SKPaint paint = new SKPaint
-            {
-                Style = SKPaintStyle.Stroke,
-                Color = stroke,
-                StrokeWidth = 10
-            };
+        //    SKPaint paint_line = new SKPaint
+        //    {
+        //        Style = SKPaintStyle.Stroke,
+        //        Color = inside,
+        //        StrokeWidth = 4
+        //    };
+        //    //float x_centre=0, y_centre=0;
 
-            SKPaint paint_line = new SKPaint
-            {
-                Style = SKPaintStyle.Stroke,
-                Color = inside,
-                StrokeWidth = 4
-            };
-            //float x_centre=0, y_centre=0;
+        //    if (circles.Count > 0)
+        //    {
+        //        Circle main = circles.Find(c => c.Type == 0);
+        //        for (int i = 0; i < circles.Count(); i++)
+        //        {
+        //            canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
+        //            paint.Style = SKPaintStyle.Fill;
+        //            paint.Color = inside;
+        //            canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
 
-            if (circles.Count > 0)
-            {
-                Circle main = circles.Find(c => c.Type == 0);
-                for (int i = 0; i < circles.Count(); i++)
-                {
-                    canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
-                    paint.Style = SKPaintStyle.Fill;
-                    paint.Color = inside;
-                    canvas.DrawCircle(circles[i].x * d - x0, circles[i].y * d - y0, circles[i].Radius * d, paint);
-
-                    if (circles[i].Type != 0)
-                        canvas.DrawLine(main.x * d - x0, main.y * d - y0,circles[i].x * d - x0, circles[i].y * d - y0, paint_line);
-                }
-            }
-            else
-            {
-                float x = plus.x * d - x0,
-                    y = plus.y * d - y0,
-                    r = plus.Radius * d;
-                canvas.DrawCircle(x, y, r, paint);
-                canvas.DrawLine(x - r, y, x + r, y, paint_line);
-                canvas.DrawLine(x, y - r, x, y + r, paint_line);
-            }
-        }
+        //            if (circles[i].Type != 0)
+        //                canvas.DrawLine(main.x * d - x0, main.y * d - y0,circles[i].x * d - x0, circles[i].y * d - y0, paint_line);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        float x = plus.x * d - x0,
+        //            y = plus.y * d - y0,
+        //            r = plus.Radius * d;
+        //        canvas.DrawCircle(x, y, r, paint);
+        //        canvas.DrawLine(x - r, y, x + r, y, paint_line);
+        //        canvas.DrawLine(x, y - r, x, y + r, paint_line);
+        //    }
+        //}
         public Purpose SelectedAim
         {
             get => _selectedAim;
@@ -366,19 +288,19 @@ namespace Xamarin_test.ViewModels
         }
         private async void OnAimSelected(object obj)
         {
-            await Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={current.data.Id}");
+            await Shell.Current.GoToAsync($"{nameof(AimEditPage)}?{nameof(AimEditViewModel.ItemId)}={AimsPage.current.data.Id}");
         }
         private async void OnAddAim(object obj)
         {
-            if (current != null)
-                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={current.data.Id}");
+            if (AimsPage.current != null)
+                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={AimsPage.current.data.Id}");
             else
-                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={-1}");
+                await Shell.Current.GoToAsync($"{nameof(NewAimPage)}?{nameof(NewAimViewModel.Group)}={0}");
         }
         private async void OnAddMission(object obj)
         {
-            if (current != null)
-                await Shell.Current.GoToAsync($"{nameof(NewItemPage)}?{nameof(NewItemViewModel.group)}={current.data.Id}");
+            if (AimsPage.current != null)
+                await Shell.Current.GoToAsync($"{nameof(NewItemPage)}?{nameof(NewItemViewModel.group)}={AimsPage.current.data.Id}");
         }
         static DisplayInfo mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
         static double xamarinWidth = mainDisplayInfo.Width / mainDisplayInfo.Density;

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin_test.Classes;
 using Xamarin_test.Models;
 using Xamarin_test.Services;
+using Xamarin_test.Views;
 
 namespace Xamarin_test.ViewModels
 {
@@ -24,9 +27,9 @@ namespace Xamarin_test.ViewModels
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
-            if (AimsViewModel.current != null)
+            if (AimsPage.current != null)
             {
-                Group = AimsViewModel.current.data.Id;
+                Group = AimsPage.current.data.Id;
             }
         }
         private bool ValidateSave()
@@ -83,7 +86,12 @@ namespace Xamarin_test.ViewModels
             };
 
             await DataStore.AddItemAsync(newAim);
-
+            if (AimsPage.current != null)
+                AimsPage.current.AddChild(new Node<abstract_Item>(newAim));
+            else
+            {
+                AimsPage.current = new Node<abstract_Item>(newAim);
+            }
             AimsViewModel.locker = false;
             await Shell.Current.GoToAsync("..");
         }

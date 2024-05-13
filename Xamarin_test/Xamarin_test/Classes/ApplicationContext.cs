@@ -5,6 +5,7 @@ using Xamarin_test.Models;
 using Microsoft.EntityFrameworkCore;
 using Xamarin_test;
 using Xamarin.Forms;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace Xamarin_test.Classes
 {
