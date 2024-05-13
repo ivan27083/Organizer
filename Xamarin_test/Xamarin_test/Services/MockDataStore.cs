@@ -190,7 +190,7 @@ namespace Xamarin_test.Services
             }
         }
     }
-    public class MockDataStoreDay : IDataStore<Day> // Задачи
+    public class MockDataStoreDay : IDataStore<Day>
     {
         readonly List<Day> items;
         public MockDataStoreDay()
@@ -201,7 +201,8 @@ namespace Xamarin_test.Services
                 items = db.days.ToList();
                 foreach(Day day in items)
                 {
-                    var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                    var items = db.dailies.Include(p => p.dayId);
+                  
                     foreach (var item in items)
                     {
                         day.dailies.Add(item);
@@ -235,11 +236,34 @@ namespace Xamarin_test.Services
             using (ApplicationContext db = new ApplicationContext())
             {
                 var day = db.days.Find(id);
-                var items = db.dailies.Include(p => p.Day).Where(u => u.Day == day.dayOfTheWeek);
+                var items = db.dailies.Include(p => p.dayId);
                 foreach (var item in items)
                 {
                     day.dailies.Add(item);
                 }
+                return await Task.FromResult(day);
+            }
+        }
+
+
+        public async Task<Day> GetItemByDayAsync(DateTime dateTime)
+        {
+            // возвращает 1 объект из БД
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var days = db.days.Where(p => p.day.Equals(dateTime)).ToList();
+                if (days.Count == 0)
+                {
+                    return null;
+                }
+                var day = days[0];
+                var items = db.dailies.Include(p => p.days);
+
+                foreach (var item in items)
+                {
+                    day.dailies.Add(item);
+                }
+
                 return await Task.FromResult(day);
             }
         }

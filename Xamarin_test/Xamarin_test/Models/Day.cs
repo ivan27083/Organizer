@@ -12,12 +12,12 @@ namespace Xamarin_test.Models
     {
         public int Id { get; set; }
         public DateTime day { get; set; }
-        [NotMapped]public List<Daily> dailies;
+        public List<Daily> dailies;
         public DayOfWeek? dayOfTheWeek;
-        public Daily? daily_nav {  get; set; }
+        //public Daily? daily_nav {  get; set; }
         public Day()
         {
-            day = DateTime.Now;
+            day = DateTime.Now.Date;
             dailies = new List<Daily>();
             dayOfTheWeek = day.DayOfWeek;
         }

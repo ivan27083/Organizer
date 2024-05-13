@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -8,12 +9,14 @@ using Xamarin_test.Services;
 
 namespace Xamarin_test.ViewModels
 {
+    [QueryProperty(nameof(TargetDayId), nameof(TargetDayId))]
     public class NewDailyViewModel : BaseViewModel
     {
         private string text;
         private string description;
+        private Day targetDay;
         public IDataStore<Daily> DataStore => DependencyService.Get<IDataStore<Daily>>();
-        
+        public MockDataStoreDay DayDataStore => DependencyService.Get<MockDataStoreDay>();
         public NewDailyViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -54,12 +57,29 @@ namespace Xamarin_test.ViewModels
             {
                 Text = Text,
                 Description = Description,
-                Day = DateTime.Now.DayOfWeek
+                Day = DateTime.Now.DayOfWeek,
+                days = targetDay
             };
 
             await DataStore.AddItemAsync(newDaily);
 
             await Shell.Current.GoToAsync("..");
+        }
+
+        public int TargetDayId
+        {
+            get
+            {
+                return targetDay.Id;
+            }
+            set
+            {
+                targetDay = LoadDayId(value);
+            }
+        }
+        public Day LoadDayId(int itemId)
+        {
+            return DayDataStore.GetItemAsync(itemId).Result;
         }
     }
 }

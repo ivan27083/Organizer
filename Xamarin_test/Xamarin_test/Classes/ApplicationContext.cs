@@ -31,10 +31,13 @@ namespace Xamarin_test.Classes
         {
             modelBuilder.Entity<Day>()
                 .HasKey(u => u.Id);
-            modelBuilder.Entity<Day>()
-                .HasOne(u => u.daily_nav)
-                .WithMany(c => c.days)
-                .OnDelete(DeleteBehavior.SetNull);
+
+
+           /* modelBuilder.Entity<Day>()
+                .HasMany(c => c.dailies);*/
+
+
+
             modelBuilder.Entity<Purpose>()
                 .HasKey(u => u.Id);
             modelBuilder.Entity<Purpose>()
