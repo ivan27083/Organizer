@@ -61,7 +61,8 @@ namespace Xamarin_test.Models
     public class Daily : abstract_Item
     {
         public DayOfWeek? Day { get; set; }
-        public List<Day> days { get; set; }
+        public Day dayId { get; set; }
+        public Day? days { get; set; }
         public Daily()
         {
             Day = null;
